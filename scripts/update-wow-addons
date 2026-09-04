@@ -1,6 +1,6 @@
 #!/usr/bin/env nix
 #! nix shell --inputs-from . nixpkgs#python3 nixpkgs#nix-prefetch-scripts nixpkgs#subversion --command python3
-"""Update the pinned addon URLs and hashes in pkgs/wow-addons/default.nix."""
+"""Update the pinned addon URLs and hashes in pkgs/wow-addons/*.nix."""
 
 import json
 import re
@@ -12,7 +12,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).parent.parent
-PACKAGE_FILE = ROOT / "pkgs/wow-addons/default.nix"
+PACKAGE_DIR = ROOT / "pkgs/wow-addons"
 GITHUB_TOKEN = Path.home() / ".config/wow-addons/github-token"
 
 
@@ -148,61 +148,80 @@ def field(block: str, field_name: str, addon_name: str) -> str:
 
 
 def main() -> None:
-    content = PACKAGE_FILE.read_text()
-    entry_pattern = re.compile(
-        r'(?ms)^  ([A-Za-z0-9_-]+|"[^"]+") = '
-        r'(githubAddon|githubReleaseAddon|zipAddon|svnAddon) \{(.*?)\};'
+    addon_files = sorted(PACKAGE_DIR.rglob("*.nix"))
+    addon_files = [path for path in addon_files if path.name != "default.nix"]
+    if not addon_files:
+        raise SystemExit(f"no addon definitions found in {PACKAGE_DIR}")
+
+    standalone_entry_pattern = re.compile(
+        r"(?ms)^\{[^}]+\}:\s*"
+        r"(githubAddon|githubReleaseAddon|zipAddon|svnAddon)\s*\{(.*?)\}\s*$"
     )
-    entries = list(entry_pattern.finditer(content))
-    if not entries:
-        raise SystemExit(f"no addon definitions found in {PACKAGE_FILE}")
+    grouped_entry_pattern = re.compile(
+        r"(?ms)^\s*[A-Za-z0-9_-]+\s*=\s*"
+        r"(githubAddon|githubReleaseAddon|zipAddon|svnAddon)\s*\{(.*?)\};"
+    )
 
-    updated = content
-    for match in reversed(entries):
-        addon_name = match.group(1).strip('"')
-        kind, block = match.group(2), match.group(3)
-        if kind == "githubAddon":
-            owner = field(block, "owner", addon_name)
-            repo = field(block, "repo", addon_name)
-            old_revision = field(block, "rev", addon_name)
-            revision = latest_github_revision(f"{owner}/{repo}")
-            if revision != old_revision:
-                block = replace_field(block, "rev", revision)
-                block = replace_field(
-                    block, "hash", github_source_hash(owner, repo, revision)
+    for package_file in addon_files:
+        content = package_file.read_text()
+        matches = list(grouped_entry_pattern.finditer(content))
+        if not matches:
+            match = standalone_entry_pattern.fullmatch(content)
+            if match is None:
+                raise ValueError(f"{package_file}: could not parse addon definition")
+            matches = [match]
+
+        replacements = []
+        for match in matches:
+            kind, block = match.group(1), match.group(2)
+            original_block = block
+            addon_name_match = re.search(r'\bname\s*=\s*"([^"]+)";', block)
+            addon_name = addon_name_match.group(1) if addon_name_match else package_file.stem
+            new_url = None
+            revision = None
+            if kind == "githubAddon":
+                owner = field(block, "owner", addon_name)
+                repo = field(block, "repo", addon_name)
+                old_revision = field(block, "rev", addon_name)
+                revision = latest_github_revision(f"{owner}/{repo}")
+                if revision != old_revision:
+                    block = replace_field(block, "rev", revision)
+                    block = replace_field(
+                        block, "hash", github_source_hash(owner, repo, revision)
+                    )
+            elif kind == "githubReleaseAddon":
+                owner = field(block, "owner", addon_name)
+                repo = field(block, "repo", addon_name)
+                old_revision = field(block, "rev", addon_name)
+                old_asset = field(block, "asset", addon_name)
+                revision, asset, url = latest_github_release(
+                    f"{owner}/{repo}", old_revision, old_asset
                 )
-        elif kind == "githubReleaseAddon":
-            owner = field(block, "owner", addon_name)
-            repo = field(block, "repo", addon_name)
-            old_revision = field(block, "rev", addon_name)
-            old_asset = field(block, "asset", addon_name)
-            revision, asset, url = latest_github_release(
-                f"{owner}/{repo}", old_revision, old_asset
-            )
-            if revision != old_revision or asset != old_asset:
-                block = replace_field(block, "rev", revision)
-                block = replace_field(block, "asset", asset)
-                block = replace_field(block, "sha256", prefetch(url))
-        else:
-            url = field(block, "url", addon_name)
-            new_url, revision = latest_url(url, kind)
-            if new_url != url:
-                new_hash = prefetch(new_url)
-                block = replace_field(block, "url", new_url)
-                block = replace_field(block, "sha256", new_hash)
-        if kind == "svnAddon" and revision is not None:
-            old_revision = field(block, "rev", addon_name)
-            if revision != old_revision:
-                new_hash = prefetch_svn(new_url, revision)
-                block = replace_field(block, "rev", revision)
-                block = replace_field(block, "sha256", new_hash)
-        name_match = re.search(r'\bname\s*=\s*"([^"]+)";', block)
-        name = name_match.group(1) if name_match else addon_name
-        if block != match.group(3):
-            print(f"updated {name}")
-        updated = updated[: match.start(3)] + block + updated[match.end(3) :]
+                if revision != old_revision or asset != old_asset:
+                    block = replace_field(block, "rev", revision)
+                    block = replace_field(block, "asset", asset)
+                    block = replace_field(block, "sha256", prefetch(url))
+            else:
+                url = field(block, "url", addon_name)
+                new_url, revision = latest_url(url, kind)
+                if new_url != url:
+                    new_hash = prefetch(new_url)
+                    block = replace_field(block, "url", new_url)
+                    block = replace_field(block, "sha256", new_hash)
+            if kind == "svnAddon" and revision is not None:
+                old_revision = field(block, "rev", addon_name)
+                if revision != old_revision:
+                    new_hash = prefetch_svn(new_url, revision)
+                    block = replace_field(block, "rev", revision)
+                    block = replace_field(block, "sha256", new_hash)
+            if block != original_block:
+                print(f"updated {addon_name}")
+                replacements.append((match.start(2), match.end(2), block))
 
-    PACKAGE_FILE.write_text(updated)
+        for start, end, block in reversed(replacements):
+            content = content[:start] + block + content[end:]
+        if replacements:
+            package_file.write_text(content)
 
 
 if __name__ == "__main__":

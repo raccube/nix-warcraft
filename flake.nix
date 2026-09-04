@@ -25,12 +25,21 @@
     packages = forAllSystems (system: let
       pkgs = nixpkgs.legacyPackages.${system};
       addons = import ./pkgs/wow-addons {inherit pkgs;};
+      addonPackages = pkgs.lib.flatten (pkgs.lib.mapAttrsToList (
+          _: value:
+            if pkgs.lib.isDerivation value
+            then [value]
+            else if pkgs.lib.isAttrs value
+            then pkgs.lib.attrValues value
+            else [value]
+        )
+        addons);
     in
       addons
       // {
         wow-addons = pkgs.symlinkJoin {
           name = "wow-addons";
-          paths = pkgs.lib.attrValues addons;
+          paths = addonPackages;
         };
         home-manager-wow-ui-layout = pkgs.callPackage ./pkgs/home-manager-wow-ui-layout {
           layoutName = "retail";

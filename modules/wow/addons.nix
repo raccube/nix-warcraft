@@ -1,4 +1,18 @@
 {pkgs}: {
+  allExpansions = [
+    "classic"
+    "burning-crusade"
+    "wrath-of-the-lich-king"
+    "cataclysm"
+    "mists-of-pandaria"
+    "warlords-of-draenor"
+    "legion"
+    "battle-for-azeroth"
+    "shadowlands"
+    "dragonflight"
+    "the-war-within"
+    "midnight"
+  ];
   githubAddon = {
     name ? repo,
     owner,
