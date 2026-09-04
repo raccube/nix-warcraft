@@ -1,0 +1,212 @@
+#!/usr/bin/env nix
+#! nix shell --inputs-from . nixpkgs#python3 nixpkgs#nix-prefetch-scripts nixpkgs#subversion --command python3
+"""Update the pinned addon URLs and hashes in pkgs/wow-addons/default.nix."""
+
+import json
+import re
+import subprocess
+import sys
+import urllib.error
+import urllib.request
+from pathlib import Path
+
+
+ROOT = Path(__file__).parent.parent
+PACKAGE_FILE = ROOT / "pkgs/wow-addons/default.nix"
+GITHUB_TOKEN = Path.home() / ".config/wow-addons/github-token"
+
+
+def fetch_json(url: str, github: bool = False):
+    headers = {"User-Agent": "flake-update-wow-addons"}
+    if github:
+        headers["Accept"] = "application/vnd.github+json"
+        if GITHUB_TOKEN.exists():
+            headers["Authorization"] = f"Bearer {GITHUB_TOKEN.read_text().strip()}"
+    request = urllib.request.Request(url, headers=headers)
+    with urllib.request.urlopen(request) as response:
+        return json.load(response)
+
+
+def release_assets(release: dict) -> list[dict]:
+    return [
+        asset
+        for asset in release.get("assets", [])
+        if asset["name"].endswith(".zip")
+        and not re.search(
+            r"(?i)[-_.](classic|vanilla|bcc|tbc|wotlk|wrath|cata|mists|mop)\b|nolib",
+            asset["name"],
+        )
+    ]
+
+
+def github_release(repo: str) -> str:
+    for release in fetch_json(
+        f"https://api.github.com/repos/{repo}/releases?per_page=10", github=True
+    ):
+        zips = release_assets(release)
+        if not release.get("draft") and not release.get("prerelease") and zips:
+            return zips[0]["browser_download_url"]
+    raise RuntimeError(f"no suitable GitHub release found for {repo}")
+
+
+def latest_github_release(
+    repo: str, old_revision: str, old_asset: str
+) -> tuple[str, str, str]:
+    """Return the tag, asset name, and URL for the newest stable release."""
+    for release in fetch_json(
+        f"https://api.github.com/repos/{repo}/releases?per_page=10", github=True
+    ):
+        if release.get("draft") or release.get("prerelease"):
+            continue
+        assets = release_assets(release)
+        tag = release["tag_name"]
+        # Prefer the same asset renamed for the new release. This avoids
+        # accidentally switching to a Classic/no-lib variant when a release
+        # contains more than one ZIP.
+        expected_name = old_asset.replace(old_revision, tag)
+        matching = [asset for asset in assets if asset["name"] == expected_name]
+        if not matching and len(assets) == 1:
+            matching = assets
+        if matching:
+            asset = matching[0]
+            return tag, asset["name"], asset["browser_download_url"]
+    raise RuntimeError(f"no suitable stable GitHub release found for {repo}")
+
+
+def github_source_hash(owner: str, repo: str, rev: str) -> str:
+    url = f"https://github.com/{owner}/{repo}/archive/refs/tags/{rev}.tar.gz"
+    return subprocess.run(
+        ["nix-prefetch-url", "--unpack", url],
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout.strip().splitlines()[0]
+
+
+def latest_github_revision(repo: str) -> str:
+    releases = fetch_json(
+        f"https://api.github.com/repos/{repo}/releases?per_page=10", github=True
+    )
+    for release in releases:
+        if not release.get("draft") and not release.get("prerelease"):
+            return release["tag_name"]
+    raise RuntimeError(f"no stable GitHub release found for {repo}")
+
+
+def latest_url(url: str, kind: str) -> tuple[str, str | None]:
+    if kind == "svnAddon":
+        revision = subprocess.run(
+            ["svn", "info", "--show-item", "revision", url],
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout.strip()
+        return url, revision
+    if "github.com/" in url:
+        repo = url.split("github.com/", 1)[1].split("/releases/", 1)[0]
+        return github_release(repo), None
+    if "wowinterface.com/downloads/getfile.php" in url:
+        file_id = re.search(r"[?&]id=(\d+)", url).group(1)
+        return fetch_json(
+            f"https://api.mmoui.com/v3/game/WOW/filedetails/{file_id}.json"
+        )[0]["UIDownload"], None
+    return url, None
+
+
+def prefetch(url: str) -> str:
+    return subprocess.run(
+        ["nix-prefetch-url", "--name", "source.zip", url],
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout.strip().splitlines()[-1]
+
+
+def prefetch_svn(url: str, revision: str) -> str:
+    return subprocess.run(
+        ["nix-prefetch-svn", url, revision],
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout.strip().splitlines()[-1]
+
+
+def replace_field(block: str, field: str, value: str) -> str:
+    return re.sub(
+        rf'(\b{re.escape(field)}\s*=\s*")[^"]*(";)',
+        rf'\g<1>{value}\g<2>',
+        block,
+        count=1,
+    )
+
+
+def field(block: str, field_name: str, addon_name: str) -> str:
+    match = re.search(rf'\b{re.escape(field_name)}\s*=\s*"([^"]+)";', block)
+    if match is None:
+        raise ValueError(f"{addon_name}: missing required field {field_name!r}")
+    return match.group(1)
+
+
+def main() -> None:
+    content = PACKAGE_FILE.read_text()
+    entry_pattern = re.compile(
+        r'(?ms)^  ([A-Za-z0-9_-]+|"[^"]+") = '
+        r'(githubAddon|githubReleaseAddon|zipAddon|svnAddon) \{(.*?)\};'
+    )
+    entries = list(entry_pattern.finditer(content))
+    if not entries:
+        raise SystemExit(f"no addon definitions found in {PACKAGE_FILE}")
+
+    updated = content
+    for match in reversed(entries):
+        addon_name = match.group(1).strip('"')
+        kind, block = match.group(2), match.group(3)
+        if kind == "githubAddon":
+            owner = field(block, "owner", addon_name)
+            repo = field(block, "repo", addon_name)
+            old_revision = field(block, "rev", addon_name)
+            revision = latest_github_revision(f"{owner}/{repo}")
+            if revision != old_revision:
+                block = replace_field(block, "rev", revision)
+                block = replace_field(
+                    block, "hash", github_source_hash(owner, repo, revision)
+                )
+        elif kind == "githubReleaseAddon":
+            owner = field(block, "owner", addon_name)
+            repo = field(block, "repo", addon_name)
+            old_revision = field(block, "rev", addon_name)
+            old_asset = field(block, "asset", addon_name)
+            revision, asset, url = latest_github_release(
+                f"{owner}/{repo}", old_revision, old_asset
+            )
+            if revision != old_revision or asset != old_asset:
+                block = replace_field(block, "rev", revision)
+                block = replace_field(block, "asset", asset)
+                block = replace_field(block, "sha256", prefetch(url))
+        else:
+            url = field(block, "url", addon_name)
+            new_url, revision = latest_url(url, kind)
+            if new_url != url:
+                new_hash = prefetch(new_url)
+                block = replace_field(block, "url", new_url)
+                block = replace_field(block, "sha256", new_hash)
+        if kind == "svnAddon" and revision is not None:
+            old_revision = field(block, "rev", addon_name)
+            if revision != old_revision:
+                new_hash = prefetch_svn(new_url, revision)
+                block = replace_field(block, "rev", revision)
+                block = replace_field(block, "sha256", new_hash)
+        name_match = re.search(r'\bname\s*=\s*"([^"]+)";', block)
+        name = name_match.group(1) if name_match else addon_name
+        if block != match.group(3):
+            print(f"updated {name}")
+        updated = updated[: match.start(3)] + block + updated[match.end(3) :]
+
+    PACKAGE_FILE.write_text(updated)
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except (subprocess.CalledProcessError, urllib.error.URLError, ValueError) as error:
+        sys.exit(f"error: {error}")
