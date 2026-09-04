@@ -26,3 +26,6 @@ jobs:
 
       - name: Check flake
         run: nix flake check --all-systems --no-update-lock-file
+
+      - name: Build addon collection
+        run: nix build .#packages.x86_64-linux.wow-addons --no-link --print-build-logs
