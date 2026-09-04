@@ -16,11 +16,7 @@
     systems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs systems;
   in {
-    homeManagerModules.default = moduleArgs:
-      import ./modules/wow (moduleArgs
-        // {
-          protonGe = proton-ge-nix.packages.${moduleArgs.pkgs.stdenv.hostPlatform.system}.v11.steamcompattool;
-        });
+    homeManagerModules.default = moduleArgs: import ./modules/wow moduleArgs;
 
     overlays.default = final: prev: {
       wow-addons = import ./pkgs/wow-addons {pkgs = final;};

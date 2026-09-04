@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  protonGe,
   ...
 }: let
   cfg = config.programs.wow;
@@ -205,7 +204,7 @@ in {
   config = lib.mkMerge [
     (lib.mkIf (cfg.enable && pkgs.stdenv.hostPlatform.isLinux) (let
       prefix = winePrefixDir;
-      protonTool = "${protonGe}";
+      protonTool = cfg.protonPackage;
       steamRuntimeLookup = ''
         steam_runtime="''${STEAM_RUNTIME_ENTRY_POINT:-$HOME/.local/share/Steam/steamapps/common/SteamLinuxRuntime_4/_v2-entry-point}"
         if [ ! -x "$steam_runtime" ]; then
@@ -393,6 +392,15 @@ in {
         {
           assertion = cfg.wtfSync.remoteUrl != "";
           message = "programs.wow.wtfSync.remoteUrl must be set when wtfSync.enable is true";
+        }
+      ];
+    })
+
+    (lib.mkIf (cfg.enable && pkgs.stdenv.hostPlatform.isLinux) {
+      assertions = [
+        {
+          assertion = cfg.protonPackage != null;
+          message = "programs.wow.protonPackage must be set when programs.wow is enabled on Linux";
         }
       ];
     })

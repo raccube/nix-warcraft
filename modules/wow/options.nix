@@ -2,6 +2,7 @@
   lib,
   pkgs,
   osConfig,
+  inputs,
   ...
 }: let
   toTitleCase = str: let
@@ -46,6 +47,12 @@
 in {
   options.programs.wow = {
     enable = lib.mkEnableOption "declarative WoW addon management";
+
+    protonPackage = lib.mkOption {
+      type = lib.types.nullOr lib.types.package;
+      default = lib.mkDefault inputs.proton-ge-nix.packages.${pkgs.stdenv.hostPlatform.system}.v11.steamcompattool;
+      description = "Proton package used to run World of Warcraft.";
+    };
 
     addonDir = lib.mkOption {
       type = lib.types.str;
