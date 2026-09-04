@@ -50,7 +50,7 @@ in {
 
     protonPackage = lib.mkOption {
       type = lib.types.nullOr lib.types.package;
-      default = lib.mkDefault inputs.proton-ge-nix.packages.${pkgs.stdenv.hostPlatform.system}.v11.steamcompattool;
+      default = inputs.proton-ge-nix.packages.${pkgs.stdenv.hostPlatform.system}.v11.steamcompattool;
       description = "Proton package used to run World of Warcraft.";
     };
 
