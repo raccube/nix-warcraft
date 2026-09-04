@@ -1,0 +1,47 @@
+name: Update WoW addons
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    name: Update addon pins
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure GitHub API token
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p "$HOME/.config/wow-addons"
+          printf '%s\n' "$GITHUB_TOKEN" > "$HOME/.config/wow-addons/github-token"
+
+      - name: Update addon pins
+        run: ./scripts/update-wow-addons
+
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automated/update-wow-addons
+          delete-branch: true
+          commit-message: "Update WoW addon pins"
+          title: "Update WoW addon pins"
+          body: |
+            This pull request was generated automatically by the daily addon update workflow.
+
+            Please review the updated addon revisions and hashes before merging.
