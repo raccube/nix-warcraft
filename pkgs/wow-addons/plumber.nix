@@ -1,7 +1,10 @@
-{githubAddon, ...}:
-githubAddon {
+{githubReleaseAddon, ...}:
+githubReleaseAddon {
+  name = "Plumber";
   owner = "Peterodox";
   repo = "Plumber";
-  rev = "v1.9.6";
-  hash = "0nzlw5yqvdd6xczakr1d4fschhsir3yvggj53r5hfyr7fdd43gh5";
+  rev = "v1.9.5";
+  asset = "Plumber-1.9.5.zip";
+  sha256 = "14rcwhrsq5sjp0pl3qpi322b03569w1jrakbm6p6xaqzm087drr1";
+  subdir = "Plumber";
 }
