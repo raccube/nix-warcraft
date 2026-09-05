@@ -1,7 +1,10 @@
-{githubAddon, ...}:
-githubAddon {
+{githubReleaseAddon, ...}:
+githubReleaseAddon {
+  name = "AbilityTimeline";
   owner = "Jods-GH";
   repo = "AbilityTimeline";
   rev = "v0.35";
-  hash = "1wxiscjcjq4zf0lslmdmw2qqid0hvzd931qppprhvs976gb8xnd8";
+  asset = "AbilityTimeline-v0.35.zip";
+  sha256 = "1d2kj0cgzz59v8ini70kip6m1xxlyxlqa5zm4rcflq6zgmsczr7j";
+  subdir = "AbilityTimeline";
 }

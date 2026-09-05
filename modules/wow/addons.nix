@@ -40,15 +40,19 @@
     owner,
     repo,
     rev,
-    asset,
+    asset ? null,
     sha256,
     subdir,
+    sourceArchive ? false,
   }:
     pkgs.stdenvNoCC.mkDerivation {
       pname = name;
       version = pkgs.lib.strings.removePrefix "v" rev;
       src = pkgs.fetchurl {
-        url = "https://github.com/${owner}/${repo}/releases/download/${rev}/${asset}";
+        url =
+          if sourceArchive
+          then "https://github.com/${owner}/${repo}/archive/refs/tags/${rev}.zip"
+          else "https://github.com/${owner}/${repo}/releases/download/${rev}/${asset}";
         inherit sha256;
       };
       nativeBuildInputs = [pkgs.unzip];

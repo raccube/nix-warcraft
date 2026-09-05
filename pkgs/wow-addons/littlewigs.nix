@@ -1,7 +1,10 @@
-{githubAddon, ...}:
-githubAddon {
+{githubReleaseAddon, ...}:
+githubReleaseAddon {
+  name = "LittleWigs";
   owner = "BigWigsMods";
   repo = "LittleWigs";
-  rev = "v12.0.63";
-  hash = "0073grldhkqqnz796vqwy7rl89cpp8a9rvy35m782p08y1837nh2";
+  rev = "v12.1.12";
+  asset = "LittleWigs-v12.1.12.zip";
+  sha256 = "1cv17pb733acwwajq0kvwgviaglfxczsqjhf85z8lgvm12slvmgj";
+  subdir = "LittleWigs";
 }

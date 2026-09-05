@@ -1,8 +1,10 @@
-{githubAddon, ...}:
-githubAddon {
+{githubReleaseAddon, ...}:
+githubReleaseAddon {
   name = "AdventureGuideLockouts";
   owner = "Meivyn";
   repo = "AdventureGuideLockouts";
   rev = "v1.5.3";
-  hash = "0567dvmfdvgr9i17vqnrqlrjqd4p5ypyxgjhb0v9qr4y8cjsvlfv";
+  sha256 = "16hcxhh6pjm6z15xrjaa4n40ys491hyf62aalhhh7dl1qrb5fgq2";
+  sourceArchive = true;
+  subdir = "AdventureGuideLockouts-1.5.3";
 }

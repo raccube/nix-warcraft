@@ -196,14 +196,32 @@ def main() -> None:
                 owner = field(block, "owner", addon_name)
                 repo = field(block, "repo", addon_name)
                 old_revision = field(block, "rev", addon_name)
-                old_asset = field(block, "asset", addon_name)
-                revision, asset, url = latest_github_release(
-                    f"{owner}/{repo}", old_revision, old_asset
+                source_archive = re.search(
+                    r"\bsourceArchive\s*=\s*true;", block
                 )
-                if revision != old_revision or asset != old_asset:
+                if source_archive:
+                    revision = latest_github_revision(f"{owner}/{repo}")
+                    asset = None
+                    url = (
+                        f"https://github.com/{owner}/{repo}/archive/refs/tags/"
+                        f"{revision}.zip"
+                    )
+                    changed = revision != old_revision
+                else:
+                    old_asset = field(block, "asset", addon_name)
+                    revision, asset, url = latest_github_release(
+                        f"{owner}/{repo}", old_revision, old_asset
+                    )
+                    changed = revision != old_revision or asset != old_asset
+                if changed:
                     block = replace_field(block, "rev", revision)
-                    block = replace_field(block, "asset", asset)
+                    if asset is not None:
+                        block = replace_field(block, "asset", asset)
                     block = replace_field(block, "sha256", prefetch(url))
+                    if source_archive:
+                        block = replace_field(
+                            block, "subdir", f"{addon_name}-{revision.removeprefix('v')}"
+                        )
             else:
                 url = field(block, "url", addon_name)
                 new_url, revision = latest_url(url, kind)

@@ -1,7 +1,10 @@
-{githubAddon, ...}:
-githubAddon {
+{githubReleaseAddon, ...}:
+githubReleaseAddon {
+  name = "Angleur";
   owner = "LegolandoBloom";
   repo = "Angleur";
   rev = "2.9.615-hotfix";
-  hash = "0icgq14vaqw7lsc1vr19d02agz6d9lfiwxa0vniaw7pdxwyhpiyl";
+  asset = "Angleur-2.9.615-hotfix.zip";
+  sha256 = "07rkbg446zqk83ph2h7wkcy3dwbfcsyz6a3p4nhmwyc7jp3x3q70";
+  subdir = "Angleur";
 }
