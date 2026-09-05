@@ -96,7 +96,7 @@ def latest_github_revision(repo: str) -> str:
     raise RuntimeError(f"no stable GitHub release found for {repo}")
 
 
-def latest_url(url: str, kind: str) -> tuple[str, str | None]:
+def latest_url(url: str, kind: str) -> tuple[str, str | None, str | None]:
     if kind == "svnAddon":
         revision = subprocess.run(
             ["svn", "info", "--show-item", "revision", url],
@@ -104,16 +104,17 @@ def latest_url(url: str, kind: str) -> tuple[str, str | None]:
             text=True,
             check=True,
         ).stdout.strip()
-        return url, revision
+        return url, revision, None
     if "github.com/" in url:
         repo = url.split("github.com/", 1)[1].split("/releases/", 1)[0]
-        return github_release(repo), None
+        return github_release(repo), None, None
     if "wowinterface.com/downloads/getfile.php" in url:
         file_id = re.search(r"[?&]id=(\d+)", url).group(1)
-        return fetch_json(
+        metadata = fetch_json(
             f"https://api.mmoui.com/v3/game/WOW/filedetails/{file_id}.json"
-        )[0]["UIDownload"], None
-    return url, None
+        )[0]
+        return metadata["UIDownload"], None, metadata["UIVersion"].removeprefix("v")
+    return url, None, None
 
 
 def prefetch(url: str) -> str:
@@ -224,11 +225,18 @@ def main() -> None:
                         )
             else:
                 url = field(block, "url", addon_name)
-                new_url, revision = latest_url(url, kind)
-                if new_url != url:
-                    new_hash = prefetch(new_url)
-                    block = replace_field(block, "url", new_url)
-                    block = replace_field(block, "sha256", new_hash)
+                new_url, revision, version = latest_url(url, kind)
+                old_version = re.search(r'\bversion\s*=\s*"([^"]+)";', block)
+                version_changed = version is not None and (
+                    old_version is None or old_version.group(1) != version
+                )
+                if new_url != url or version_changed:
+                    if new_url != url:
+                        new_hash = prefetch(new_url)
+                        block = replace_field(block, "url", new_url)
+                        block = replace_field(block, "sha256", new_hash)
+                    if version_changed:
+                        block = replace_field(block, "version", version)
             if kind == "svnAddon" and revision is not None:
                 old_revision = field(block, "rev", addon_name)
                 if revision != old_revision:
