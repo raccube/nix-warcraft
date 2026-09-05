@@ -27,13 +27,16 @@ def fetch_json(url: str, github: bool = False):
         return json.load(response)
 
 
-def release_assets(release: dict) -> list[dict]:
+def release_assets(release: dict, repo: str = "") -> list[dict]:
+    excluded_variants = r"classic|vanilla|bcc|tbc|wotlk|wrath|cata|mists|mop"
+    if repo.rsplit("/", 1)[-1].lower().endswith("_classic"):
+        excluded_variants = r"vanilla|bcc|tbc|wotlk|wrath|cata|mists|mop"
     return [
         asset
         for asset in release.get("assets", [])
         if asset["name"].endswith(".zip")
         and not re.search(
-            r"(?i)[-_.](classic|vanilla|bcc|tbc|wotlk|wrath|cata|mists|mop)\b|nolib",
+            rf"(?i)[-_.]({excluded_variants})\b|nolib",
             asset["name"],
         )
     ]
@@ -43,7 +46,7 @@ def github_release(repo: str) -> str:
     for release in fetch_json(
         f"https://api.github.com/repos/{repo}/releases?per_page=10", github=True
     ):
-        zips = release_assets(release)
+        zips = release_assets(release, repo)
         if not release.get("draft") and not release.get("prerelease") and zips:
             return zips[0]["browser_download_url"]
     raise RuntimeError(f"no suitable GitHub release found for {repo}")
@@ -58,7 +61,7 @@ def latest_github_release(
     ):
         if release.get("draft") or release.get("prerelease"):
             continue
-        assets = release_assets(release)
+        assets = release_assets(release, repo)
         tag = release["tag_name"]
         # Prefer the same asset renamed for the new release. This avoids
         # accidentally switching to a Classic/no-lib variant when a release
@@ -227,5 +230,10 @@ def main() -> None:
 if __name__ == "__main__":
     try:
         main()
-    except (subprocess.CalledProcessError, urllib.error.URLError, ValueError) as error:
+    except (
+        RuntimeError,
+        subprocess.CalledProcessError,
+        urllib.error.URLError,
+        ValueError,
+    ) as error:
         sys.exit(f"error: {error}")
