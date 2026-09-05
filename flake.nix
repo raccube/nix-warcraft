@@ -7,12 +7,7 @@
     proton-ge-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    proton-ge-nix,
-    ...
-  }: let
+  outputs = {nixpkgs, ...}: let
     systems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs systems;
   in {
