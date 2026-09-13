@@ -1,4 +1,4 @@
-addonLib: let
+{pkgs}: addonLib: let
   fromMainRelease = subdir:
     addonLib.githubReleaseAddon {
       name = "BigWigs";
@@ -11,17 +11,25 @@ addonLib: let
     };
 in
   with addonLib; {
-    bigwigs = fromMainRelease "BigWigs";
-    core = fromMainRelease "BigWigs_Core";
-    march_on_quel_danas = fromMainRelease "BigWigs_MarchOnQuelDanas";
-    midnight_lairs = fromMainRelease "BigWigs_MidnightLairs";
-    midnight_world = fromMainRelease "BigWigs_MidnightWorld";
-    options = fromMainRelease "BigWigs_Options";
-    plugins = fromMainRelease "BigWigs_Plugins";
-    sporefall = fromMainRelease "BigWigs_Sporefall";
-    the_dreamrift = fromMainRelease "BigWigs_TheDreamrift";
-    the_venomous_abyss = fromMainRelease "BigWigs_TheVenomousAbyss";
-    the_voidspire = fromMainRelease "BigWigs_TheVoidspire";
+    bigwigs = pkgs.stdenvNoCC.mkDerivation {
+      pname = "BigWigs";
+      version = pkgs.lib.strings.removePrefix "v" rev;
+      src = pkgs.fetchurl {
+        url =
+          if sourceArchive
+          then "https://github.com/${owner}/${repo}/archive/refs/tags/${rev}.zip"
+          else "https://github.com/${owner}/${repo}/releases/download/${rev}/${asset}";
+        inherit sha256;
+      };
+      nativeBuildInputs = [pkgs.unzip];
+      dontUnpack = true;
+      installPhase = ''
+        mkdir -p "$out" "$TMPDIR/unpacked"
+        unzip -q "$src" -d "$out"
+        mkdir -p "$out/"
+        cp -R "$TMPDIR/unpacked/" "$out/"
+      '';
+    };
     classic = githubReleaseAddon {
       name = "BigWigs_Classic";
       owner = "BigWigsMods";
