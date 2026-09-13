@@ -3,8 +3,8 @@ githubReleaseAddon {
   name = "CraftSim";
   owner = "derfloh205";
   repo = "CraftSim";
-  rev = "27.0.2";
-  asset = "CraftSim-27.0.2.zip";
-  sha256 = "02sbnfdllvz2a8sc4k0hwgbywhfy3vdx7hlcl5hhry3bh8wrz0im";
+  rev = "27.0.3";
+  asset = "CraftSim-27.0.3.zip";
+  sha256 = "0x9xw4y15iajjb4dy34dllvbnj17vidsyqmsmgk46s387pimsnc4";
   subdir = "CraftSim";
 }
