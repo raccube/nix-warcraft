@@ -33,15 +33,10 @@ jobs:
       - name: Update addon pins
         run: ./scripts/update-wow-addons
 
-      - name: Open pull request
-        uses: peter-evans/create-pull-request@v8
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: automated/update-wow-addons
-          delete-branch: true
-          commit-message: "Update WoW addon pins"
-          title: "Update WoW addon pins"
-          body: |
-            This pull request was generated automatically by the daily addon update workflow.
-
-            Please review the updated addon revisions and hashes before merging.
+      - name: Commit
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "Update WoW addon pins"
+          git push
