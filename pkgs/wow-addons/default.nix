@@ -1,7 +1,7 @@
 {pkgs}: let
   addonLib = import ../../modules/wow/addons.nix {inherit pkgs;};
 in {
-  bigwigs = import ./bigwigs.nix addonLib;
+  bigwigs = import ./bigwigs.nix {inherit pkgs addonLib;};
   btwquests = import ./btwquests.nix addonLib;
   adventure-guide-lockouts = import ./adventure-guide-lockouts.nix addonLib;
   mog-companions = import ./mog-companions.nix addonLib;
