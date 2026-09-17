@@ -172,7 +172,9 @@ def main() -> None:
         if not matches:
             match = standalone_entry_pattern.fullmatch(content)
             if match is None:
-                raise ValueError(f"{package_file}: could not parse addon definition")
+                # Some packages are hand-written derivations rather than one of
+                # the helper-based definitions this updater knows how to update.
+                continue
             matches = [match]
 
         replacements = []
