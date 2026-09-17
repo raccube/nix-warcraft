@@ -175,11 +175,7 @@
       flavourDirName = "_${builtins.replaceStrings ["-"] ["_"] flavour}_";
       gameDir = "${cfg.wowDir}/${flavourDirName}";
     in {
-      addonInstallDir = "${
-        if lib.hasPrefix "/" cfg.addonDir
-        then cfg.addonDir
-        else "$HOME/${cfg.addonDir}"
-      }/${gameDir}/Interface/AddOns";
+      addonInstallDir = cfg.addonDir;
       addonsEnv = pkgs.runCommand "wow-addons-${flavour}" {} ''
         mkdir "$out"
         ${lib.concatMapStringsSep "\n" (addon: ''
