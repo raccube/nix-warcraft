@@ -2,7 +2,7 @@
 svnAddon {
   name = "bug-grabber";
   url = "https://repos.curseforge.com/wow/bug-grabber/trunk";
-  rev = "399";
-  sha256 = "17m83zcpc2kswhgcw6fdcr79qymk426j9h4zdd3z7xi38b2cfgcf";
+  rev = "401";
+  sha256 = "0hqfn40hysfh5sl7z3xr07rnn2knfq82kzz4mm9i5yw0nnlcwhw7";
   target = "!BugGrabber";
 }
