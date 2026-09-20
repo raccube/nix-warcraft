@@ -3,8 +3,8 @@ githubReleaseAddon {
   name = "LittleWigs";
   owner = "BigWigsMods";
   repo = "LittleWigs";
-  rev = "v12.1.14";
-  asset = "LittleWigs-v12.1.14.zip";
-  sha256 = "0m558wa9x6xqj9f4jsmjf796l73j4wi8zfnpvjfjdrxq1vj2krx4";
+  rev = "v12.1.16";
+  asset = "LittleWigs-v12.1.16.zip";
+  sha256 = "0wfjfdzm1qcx2h1x9x7vxvb0slbr1a05h40ww9282xxhah2anpw9";
   subdir = "LittleWigs";
 }
