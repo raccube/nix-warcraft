@@ -43,6 +43,7 @@
           layoutName = "retail";
           layoutFallback = "16:9";
         };
+        mpqcli = pkgs.callPackage ./pkgs/mpqcli {};
       });
 
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
