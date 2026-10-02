@@ -41,3 +41,5 @@ Then, use the `nix-warcraft` module in your Home Manager configuration:
   };
 }
 ```
+
+Run `wow-proton-init` to initialize the Proton prefix, then run `wow-battlenet-install --download` to download the Battle.net client.
