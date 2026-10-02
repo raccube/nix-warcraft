@@ -1,6 +1,52 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-  <path d="M2 2h3L2 5zM14 2v3l-3-3zM14 14h-3l3-3zM2 14v-3l3 3z"/>
-  <path d="M8 1C4.14 1 1 4.14 1 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm0 2c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5z"/>
-  <path d="M4.65 5.35h1.7l-.27.57.62 3.09L8 5.35l1.3 3.66.62-3.09-.29-.57h1.72l-.46.82-.96 4.48H8.79L8 7.68l-.79 2.97H6.07l-.96-4.48z"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="48"
+   height="48"
+   fill="none"
+   aria-labelledby="blz-icon-title-world-of-warcraft"
+   viewBox="0 1 48 48"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="wow-symbolic.svg"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:zoom="24.166667"
+     inkscape:cx="23.97931"
+     inkscape:cy="24"
+     inkscape:window-width="3440"
+     inkscape:window-height="1371"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3" />
+  <title
+     id="blz-icon-title-world-of-warcraft">World of Warcraft</title>
+  <path
+     fill="#F4BF2A"
+     fill-rule="evenodd"
+     d="M44 24.97c0-4.031-1.2-8.061-3.6-11.487V8.647c0-.202-.2-.202-.2-.202h-4.8c-6.8-4.635-15.8-4.635-22.6 0H7.6v5.038c-4.8 6.851-4.8 16.12 0 22.972v4.837c0 .201.2.201.2.201h4.8c6.8 4.635 15.8 4.635 22.8 0h4.8c.2 0 .2-.202.2-.403v-4.836c2.4-3.224 3.6-7.255 3.6-11.285m-37.4-.001c0-9.673 7.8-17.531 17.4-17.531s17.4 7.859 17.4 17.531C41.4 34.641 33.6 42.5 24 42.5S6.6 34.64 6.6 24.969"
+     clip-rule="evenodd"
+     id="path2"
+     style="fill:#000000" />
+  <path
+     fill="#F4BF2A"
+     fill-rule="evenodd"
+     d="M12.4 15.498H19c-.2.806-.2 1.612-.2 2.418C19 20.94 21 29 21 29l3-12.695 3.2 12.292s2-10.881 2-11.687c0-.605-.4-1.008-.8-1.411h7c-1 .806-1.6 2.015-2 3.224-.6 2.418-2.8 14.509-2.8 15.315s.4 1.612.8 2.217H25c.2-.605.2-1.21.2-1.814 0-1.209-1-6.448-1-6.448s-1.4 5.44-1.4 6.448c0 .605.2 1.21.4 1.814h-6.6s1.2-1.008 1.2-1.814c-.2-2.418-3.6-15.315-3.8-16.322 0-1.008-.6-2.015-1.6-2.62"
+     clip-rule="evenodd"
+     id="path3"
+     style="fill:#000000" />
 </svg>
