@@ -315,7 +315,7 @@ in {
             name = "Battle.net";
             comment = "Battle.net via Proton in a manually managed prefix";
             exec = "wow-battlenet --disable-gpu";
-            icon = "applications-games";
+            icon = "com.blizzard.battlenet";
             type = "Application";
             categories = ["Game"];
             settings.StartupWMClass = "battle.net.exe";
@@ -337,6 +337,11 @@ in {
 
       xdg.dataFile."icons/hicolor/scalable/apps/com.blizzard.worldofwarcraft.svg".source = ./icons/wow.svg;
       xdg.dataFile."icons/hicolor/symbolic/apps/com.blizzard.worldofwarcraft-symbolic.svg".source = ./icons/wow-symbolic.svg;
+      xdg.dataFile."icons/hicolor/symbolic/apps/com.blizzard.battlenet-symbolic.svg".source = ./icons/battlenet.svg;
+      xdg.dataFile."icons/hicolor/16x16/apps/com.blizzard.battlenet.png".source = ./icons/bnet_16.png;
+      xdg.dataFile."icons/hicolor/32x32/apps/com.blizzard.battlenet.png".source = ./icons/bnet_32.png;
+      xdg.dataFile."icons/hicolor/48x48/apps/com.blizzard.battlenet.png".source = ./icons/bnet_48.png;
+      xdg.dataFile."icons/hicolor/128x128/apps/com.blizzard.battlenet.png".source = ./icons/bnet_128.png;
     }))
 
     (lib.mkIf cfg.enable {
