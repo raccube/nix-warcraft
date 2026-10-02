@@ -107,7 +107,10 @@ def latest_url(url: str, kind: str) -> tuple[str, str | None, str | None]:
         return url, revision, None
     if "github.com/" in url:
         repo = url.split("github.com/", 1)[1].split("/releases/", 1)[0]
-        return github_release(repo), None, None
+        new_url = github_release(repo)
+        match = re.search(r"/releases/download/v?([^/]+)/", new_url)
+        version = match.group(1) if match else None
+        return new_url, None, version
     if "wowinterface.com/downloads/getfile.php" in url:
         file_id = re.search(r"[?&]id=(\d+)", url).group(1)
         metadata = fetch_json(

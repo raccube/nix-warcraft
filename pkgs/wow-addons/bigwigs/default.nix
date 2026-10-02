@@ -3,7 +3,7 @@
   addonLib,
 }:
 with addonLib; {
-  core = import ./core.nix {inherit pkgs;};
+  core = import ./core.nix addonLib;
   classic = githubReleaseAddon {
     name = "BigWigs_Classic";
     owner = "BigWigsMods";

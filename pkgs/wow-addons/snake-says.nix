@@ -3,8 +3,8 @@ githubReleaseAddon {
   name = "SnakeSays";
   owner = "lgkern";
   repo = "SnakeSays";
-  rev = "v3.3.5";
-  asset = "SnakeSays-v3.3.5.zip";
-  sha256 = "01xn8m3mvad51vrgxsqnirwm6hy2ajg8am1k6r8i696zbny832bh";
+  rev = "v3.3.6";
+  asset = "SnakeSays-v3.3.6.zip";
+  sha256 = "1p1kjwasch179sgla96sdbjg217yx44vvmfxspn6n8j6dwq2n5q9";
   subdir = "SnakeSays";
 }
