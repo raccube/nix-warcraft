@@ -1,5 +1,5 @@
 <div align="center">
-![nix-warcraft icon](assets/nix-warcraft.svg)
+<img alt="nix-warcraft icon" src="https://raw.githubusercontent.com/raccube/nix-warcraft/refs/heads/amirdrassil/assets/nix-warcraft.svg" width="48" height="48" />
 
 # nix-warcraft
 
