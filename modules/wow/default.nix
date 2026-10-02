@@ -326,7 +326,7 @@ in {
               name = version.displayName;
               comment = "${version.displayName} via Proton in a manually managed prefix";
               exec = "wow-${name}";
-              icon = "wow";
+              icon = "com.blizzard.worldofwarcraft";
               type = "Application";
               categories = ["Game"];
               settings.StartupWMClass = lib.toLower flavourExeMap.${name};
@@ -334,8 +334,8 @@ in {
           cfg.versions
         );
 
-      xdg.dataFile."icons/hicolor/scalable/apps/wow.svg".source = ./icons/wow.svg;
-      xdg.dataFile."icons/hicolor/symbolic/apps/wow.svg".source = ./icons/wow-symbolic.svg;
+      xdg.dataFile."icons/hicolor/scalable/apps/com.blizzard.worldofwarcraft.svg".source = ./icons/wow.svg;
+      xdg.dataFile."icons/hicolor/symbolic/apps/com.blizzard.worldofwarcraft-symbolic.svg".source = ./icons/wow-symbolic.svg;
     }))
 
     (lib.mkIf cfg.enable {
