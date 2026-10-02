@@ -217,6 +217,7 @@ in {
         export STEAM_COMPAT_APP_ID="$SteamAppId"
         export PROTON_NO_ESYNC=1
         export PROTON_NO_FSYNC=1
+        export WINE_SIMULATE_WRITECOPY=1
         # Prefer Wine's native Wayland driver over Xwayland.  WAYLAND_DISPLAY
         # and XDG_RUNTIME_DIR remain inherited from the graphical session.
         export DISPLAY=""
