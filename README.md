@@ -20,7 +20,7 @@ Add the flake to your flake inputs:
 
 ```nix
 {
-  inputs.nix-warcraft.url = "github:nix-warcraft/nix-warcraft";
+  inputs.nix-warcraft.url = "github:raccube/nix-warcraft";
 }
 ```
 
