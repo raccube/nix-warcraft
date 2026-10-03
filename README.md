@@ -24,6 +24,14 @@ Add the flake to your flake inputs:
 }
 ```
 
+Add the `nix-warcraft` module to your Home Manager configuration:
+
+```nix
+{
+  imports = [inputs.nix-warcraft.homeManagerModules.default];
+}
+```
+
 Then, use the `nix-warcraft` module in your Home Manager configuration:
 
 ```nix
