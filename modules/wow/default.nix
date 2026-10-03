@@ -11,16 +11,6 @@
     then cfg.prefixDir
     else "$HOME/${cfg.prefixDir}";
 
-  wtfDirRaw =
-    if cfg.wtfSync.wtfDir != null
-    then cfg.wtfSync.wtfDir
-    else "${builtins.dirOf (builtins.dirOf cfg.addonDir)}/WTF";
-
-  wtfInstallDir =
-    if lib.hasPrefix "/" wtfDirRaw
-    then wtfDirRaw
-    else "$HOME/${wtfDirRaw}";
-
   uiLayoutAddon = pkgs.callPackage ../../pkgs/home-manager-wow-ui-layout {
     layoutName = cfg.uiLayoutName;
     layoutFallback = cfg.uiLayoutFallback;
@@ -38,6 +28,11 @@
   gitignoreFile = pkgs.writeText "wow-wtf-gitignore" (
     lib.concatStringsSep "\n" (["/*"] ++ map (p: "!/${p}") cfg.wtfSync.syncPaths) + "\n"
   );
+
+  wtfSyncInvocations = lib.concatStringsSep "\n" (lib.mapAttrsToList (name: version: ''
+      sync_version "${name}" "${version.wtfDir}"
+    '')
+    cfg.versions);
 
   wowWtfSyncScript = pkgs.writeShellApplication {
     name = "wow-wtf-sync";
@@ -59,48 +54,56 @@
         fi
       }
 
-      WTF_DIR="${wtfInstallDir}"
-
-      if [ ! -d "$WTF_DIR" ]; then
-        echo "WTF directory not found: $WTF_DIR"
-        exit 1
-      fi
-
-      cd "$WTF_DIR"
-
-      if [ ! -d .git ]; then
-        git init --object-format=sha256 -b ${cfg.wtfSync.branch}
-        git remote add origin "${cfg.wtfSync.remoteUrl}"
-      fi
-
-      if [ ! -f .gitignore ]; then
-        cp ${gitignoreFile} .gitignore
-        git add .gitignore
-        git commit -m "Add .gitignore"
-      fi
-
-      if ! git fetch origin ${cfg.wtfSync.branch}; then
-        notify_failure "Could not fetch branch ${cfg.wtfSync.branch}."
-        exit 1
-      fi
-      if git rev-parse --verify origin/${cfg.wtfSync.branch} &>/dev/null; then
-        if ! git rebase --autostash origin/${cfg.wtfSync.branch}; then
-          notify_failure "A merge conflict needs resolving in $WTF_DIR. Run wow-wtf-resolve."
-          exit 1
+      sync_version() {
+        version="$1"
+        WTF_DIR="$2"
+        if [[ "$WTF_DIR" != /* ]]; then
+          WTF_DIR="$HOME/$WTF_DIR"
         fi
-      fi
 
-      if [ "$pull_only" = true ]; then
-        exit 0
-      fi
+        if [ ! -d "$WTF_DIR" ]; then
+          echo "WoW $version WTF directory not found: $WTF_DIR"
+          return 1
+        fi
 
-      git add -A
-      if ! git diff --staged --quiet; then
-        git commit -m "WTF sync from $(hostname) at $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
-      fi
-      if [ "$(git rev-list --count origin/${cfg.wtfSync.branch}..HEAD)" -gt 0 ]; then
-        git push -u origin ${cfg.wtfSync.branch}
-      fi
+        cd "$WTF_DIR"
+
+        if [ ! -d .git ]; then
+          git init --object-format=sha256 -b ${cfg.wtfSync.branch}
+          git remote add origin "${cfg.wtfSync.remoteUrl}"
+        fi
+
+        if [ ! -f .gitignore ]; then
+          cp ${gitignoreFile} .gitignore
+          git add .gitignore
+          git commit -m "Add .gitignore"
+        fi
+
+        if ! git fetch origin ${cfg.wtfSync.branch}; then
+          notify_failure "Could not fetch $version branch ${cfg.wtfSync.branch}."
+          return 1
+        fi
+        if git rev-parse --verify origin/${cfg.wtfSync.branch} &>/dev/null; then
+          if ! git rebase --autostash origin/${cfg.wtfSync.branch}; then
+            notify_failure "A merge conflict needs resolving in $WTF_DIR. Run wow-wtf-resolve."
+            return 1
+          fi
+        fi
+
+        if [ "$pull_only" = true ]; then
+          return 0
+        fi
+
+        git add -A
+        if ! git diff --staged --quiet; then
+          git commit -m "WTF sync from $version on $(hostname) at $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+        fi
+        if [ "$(git rev-list --count origin/${cfg.wtfSync.branch}..HEAD)" -gt 0 ]; then
+          git push -u origin ${cfg.wtfSync.branch}
+        fi
+      }
+
+      ${wtfSyncInvocations}
     '';
   };
 
@@ -108,38 +111,46 @@
     name = "wow-wtf-resolve";
     runtimeInputs = [pkgs.git pkgs.meld] ++ lib.optional pkgs.stdenv.hostPlatform.isLinux pkgs.libnotify;
     text = ''
-      WTF_DIR="${wtfInstallDir}"
-
       notify_failure() {
         if command -v notify-send >/dev/null 2>&1; then
           notify-send --app-name="World of Warcraft" --app-icon=wow --urgency=critical "WoW WTF conflict resolution failed" "$1"
         fi
       }
 
-      if [ ! -d "$WTF_DIR/.git" ]; then
-        echo "WTF repository not found: $WTF_DIR" >&2
-        exit 1
-      fi
+      resolve_version() {
+        version="$1"
+        WTF_DIR="$2"
+        if [[ "$WTF_DIR" != /* ]]; then
+          WTF_DIR="$HOME/$WTF_DIR"
+        fi
+        if [ ! -d "$WTF_DIR/.git" ]; then
+          return 0
+        fi
 
-      cd "$WTF_DIR"
-      if ! git rev-parse --verify REBASE_HEAD >/dev/null 2>&1; then
-        echo "No WoW WTF rebase is currently waiting for conflict resolution." >&2
-        exit 1
-      fi
+        cd "$WTF_DIR"
+        if ! git rev-parse --verify REBASE_HEAD >/dev/null 2>&1; then
+          return 0
+        fi
 
-      git mergetool --tool=meld --no-prompt
-      if [ -n "$(git diff --name-only --diff-filter=U)" ]; then
-        notify_failure "Unresolved files remain in $WTF_DIR."
-        exit 1
-      fi
+        git mergetool --tool=meld --no-prompt
+        if [ -n "$(git diff --name-only --diff-filter=U)" ]; then
+          notify_failure "Unresolved files remain in $WTF_DIR."
+          return 1
+        fi
 
-      git add -A
-      if ! GIT_EDITOR=true git rebase --continue; then
-        notify_failure "The rebase could not be continued in $WTF_DIR."
-        exit 1
-      fi
+        git add -A
+        if ! GIT_EDITOR=true git rebase --continue; then
+          notify_failure "The $version rebase could not be continued in $WTF_DIR."
+          return 1
+        fi
 
-      echo "WoW WTF conflict resolved. Run wow-wtf-sync to push the result."
+        echo "WoW $version WTF conflict resolved."
+      }
+
+      ${lib.concatStringsSep "\n" (lib.mapAttrsToList (name: version: ''
+          resolve_version "${name}" "${version.wtfDir}"
+        '')
+        cfg.versions)}
     '';
   };
 
@@ -175,7 +186,7 @@
       flavourDirName = "_${builtins.replaceStrings ["-"] ["_"] flavour}_";
       gameDir = "${cfg.wowDir}/${flavourDirName}";
     in {
-      addonInstallDir = cfg.addonDir;
+      addonInstallDir = wowConfig.addonDir;
       addonsEnv = pkgs.runCommand "wow-addons-${flavour}" {} ''
         mkdir "$out"
         ${lib.concatMapStringsSep "\n" (addon: ''

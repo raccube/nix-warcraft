@@ -14,7 +14,17 @@
     name,
     config,
     ...
-  }: {
+  }: let
+    wowDir = let
+      name' = lib.replaceStrings ["-"] ["_"] name;
+    in
+      if pkgs.stdenv.hostPlatform.isDarwin
+      then "/Applications/World of Warcraft/_${name'}_"
+      else ".local/share/wineprefixes/battlenet-wow/pfx/drive_c/Program Files (x86)/World of Warcraft/_${name'}_";
+
+    defaultAddonDir = wowDir + "/Interface/AddOns";
+    defaultWtfDir = "${builtins.dirOf (builtins.dirOf defaultAddonDir)}/WTF";
+  in {
     options = {
       addonPackages = lib.mkOption {
         type = lib.types.listOf lib.types.package;
@@ -37,6 +47,20 @@
         description = "WoW executable relative to the Proton compatibility-data directory. Defaults based on the version name.";
       };
 
+      addonDir = lib.mkOption {
+        type = lib.types.str;
+        default = defaultAddonDir;
+        description = "Path to this version's Interface/AddOns directory.";
+        example = ".local/share/wineprefixes/battlenet-wow/pfx/drive_c/Program Files (x86)/World of Warcraft/_retail_/Interface/AddOns";
+      };
+
+      wtfDir = lib.mkOption {
+        type = lib.types.str;
+        default = defaultWtfDir;
+        description = "Path to this version's WTF directory.";
+        example = ".local/share/wineprefixes/battlenet-wow/pfx/drive_c/Program Files (x86)/World of Warcraft/_retail_/WTF";
+      };
+
       mutableAddOns = lib.mkOption {
         type = lib.types.bool;
         default = false;
@@ -52,16 +76,6 @@ in {
       type = lib.types.nullOr lib.types.package;
       default = inputs.proton-ge-nix.packages.${pkgs.stdenv.hostPlatform.system}.v11.steamcompattool;
       description = "Proton package used to run World of Warcraft.";
-    };
-
-    addonDir = lib.mkOption {
-      type = lib.types.str;
-      description = "Path to Interface/AddOns directory.";
-      example = ".local/share/wineprefixes/battlenet-wow/pfx/drive_c/Program Files (x86)/World of Warcraft/_retail_/Interface/AddOns";
-      default =
-        if pkgs.stdenv.hostPlatform.isDarwin
-        then "/Applications/World of Warcraft/_retail_/Interface/AddOns"
-        else ".local/share/wineprefixes/battlenet-wow/pfx/drive_c/Program Files (x86)/World of Warcraft/_retail_/Interface/AddOns";
     };
 
     prefixDir = lib.mkOption {
@@ -134,12 +148,6 @@ in {
         default = "";
         description = "Git remote URL for the WTF repository.";
         example = "git@forgejo.example.com:kkwiatek/wow-wtf.git";
-      };
-
-      wtfDir = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        default = null;
-        description = "Override path to WTF directory. Defaults to _retail_/WTF derived from addonDir.";
       };
 
       branch = lib.mkOption {
