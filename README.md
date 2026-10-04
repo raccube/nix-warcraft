@@ -53,12 +53,20 @@ In the `home.nix` referenced above, import the module and enable the addons:
 
   programs.wow = {
     enable = true;
-    versions.retail.addonPackages = with pkgs.wow-addons; [
-      bigwigs.core
-      narcissus
-    ];
+    versions.retail = {
+      addonPackages = with pkgs.wow-addons; [
+        bigwigs.core
+        narcissus
+      ];
+
+      # Link a locally checked-out addon directly into WoW while developing it.
+      developmentAddons.MyAddon = "/home/user/src/MyAddon";
+    };
   };
 }
 ```
+
+The attribute name must match the addon's directory name. Use `$HOME` in the
+source path when the checkout location differs between machines.
 
 Run `wow-proton-init` to initialize the Proton prefix, then run `wow-battlenet-install --download` to download the Battle.net client.

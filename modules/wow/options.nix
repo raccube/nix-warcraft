@@ -32,6 +32,19 @@
         description = "Nix packages providing the addons for this WoW flavour.";
       };
 
+      developmentAddons = lib.mkOption {
+        type = lib.types.attrsOf lib.types.str;
+        default = {};
+        example = {
+          MyAddon = "/home/user/src/MyAddon";
+        };
+        description = ''
+          Addons to link directly from local source directories while developing.
+          Attribute names are the addon directory names; paths are expanded by
+          the activation script, so $HOME may be used.
+        '';
+      };
+
       displayName = lib.mkOption {
         type = lib.types.str;
         default =
