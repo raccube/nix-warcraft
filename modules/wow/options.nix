@@ -40,8 +40,8 @@
         };
         description = ''
           Addons to link directly from local source directories while developing.
-          Attribute names are the addon directory names; paths are expanded by
-          the activation script, so $HOME may be used.
+          Attribute names are the addon directory names. Paths must be absolute
+          because they are embedded in the generated addon directory.
         '';
       };
 

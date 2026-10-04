@@ -201,6 +201,10 @@
             done
           '')
           (wowConfig.addonPackages ++ [uiLayoutAddon])}
+        ${lib.concatStringsSep "\n" (lib.mapAttrsToList (addon: source: ''
+            ln -s "${source}" "$out/${addon}"
+          '')
+          wowConfig.developmentAddons)}
       '';
       mutableAddOns = wowConfig.mutableAddOns;
       executable =
@@ -392,18 +396,6 @@ in {
               $DRY_RUN_CMD ln -sfn "$(readlink -f "$addon")" "$target"
             done
 
-            ${lib.concatStringsSep "\n" (lib.mapAttrsToList (addon: source: ''
-                source="${source}"
-                if [ ! -d "$source" ]; then
-                  echo "WoW ${name} development addon source not found: $source" >&2
-                  exit 1
-                fi
-                if [ -e "$addon_install_dir/${addon}" ] && [ ! -L "$addon_install_dir/${addon}" ]; then
-                  $DRY_RUN_CMD rm -rf "$addon_install_dir/${addon}"
-                fi
-                $DRY_RUN_CMD ln -sfn "$source" "$addon_install_dir/${addon}"
-              '')
-              version.developmentAddons)}
           ''
           else ''
             if [ -d "${version.addonInstallDir}" ] && [ ! -L "${version.addonInstallDir}" ]; then
