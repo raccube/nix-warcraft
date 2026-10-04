@@ -1,0 +1,14 @@
+[book]
+authors = ["nix-warcraft contributors"]
+language = "en"
+src = "docs"
+title = "nix-warcraft"
+
+[build]
+build-dir = "book"
+
+[output.html]
+git-repository-url = "https://github.com/raccube/nix-warcraft"
+edit-url-template = "https://github.com/raccube/nix-warcraft/edit/amirdrassil/{path}"
+site-url = "/nix-warcraft/"
+additional-css = ["docs/theme/custom.css"]

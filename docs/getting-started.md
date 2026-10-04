@@ -1,22 +1,6 @@
-<div align="center">
-<img alt="nix-warcraft icon" src="assets/nix-warcraft.svg" width="128" height="128" />
+# Getting started
 
-# nix-warcraft
-
-This flake provides declarative World of Warcraft addon management for Home
-Manager on NixOS and nix-darwin.
-
-Read the full documentation at [raccube.github.io/nix-warcraft](https://raccube.github.io/nix-warcraft/).
-</div>
-
-## Features
-
-- Declarative addon management
-- Proton wrapper
-- WTF backup (WIP)
-- Edit mode layout can be applied declaratively
-
-## Usage
+## Add the flake input
 
 Add `nix-warcraft` and Home Manager to your flake inputs. This example uses a
 standalone Home Manager configuration:
@@ -44,13 +28,15 @@ standalone Home Manager configuration:
 }
 ```
 
-In the `home.nix` referenced above, import the module and enable the addons:
+## Enable the module
+
+In `home.nix`, import the module and add the overlay that exposes the addon
+packages as `pkgs.wow-addons`:
 
 ```nix
 {nix-warcraft, pkgs, ...}: {
   imports = [nix-warcraft.homeManagerModules.default];
 
-  # Make the add-on packages available as pkgs.wow-addons.
   nixpkgs.overlays = [nix-warcraft.overlays.default];
 
   programs.wow = {
@@ -63,4 +49,23 @@ In the `home.nix` referenced above, import the module and enable the addons:
 }
 ```
 
-Run `wow-proton-init` to initialize the Proton prefix, then run `wow-battlenet-install --download` to download the Battle.net client.
+Apply the Home Manager configuration with your usual command, for example:
+
+```sh
+home-manager switch --flake .#example
+```
+
+## Install World of Warcraft
+
+On Linux, the module provides commands for preparing the Proton prefix and
+installing Battle.net:
+
+```sh
+wow-proton-init
+wow-battlenet-install --download
+```
+
+Sign in to Battle.net and install World of Warcraft. After the game is
+installed, launch it with the generated `wow-retail` command. Other version
+names, such as `classic` or `ptr`, produce corresponding launchers when they
+are configured under `programs.wow.versions`.

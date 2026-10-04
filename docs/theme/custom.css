@@ -1,0 +1,7 @@
+:root {
+  --sidebar-width: 300px;
+}
+
+.content main {
+  max-width: 980px;
+}
