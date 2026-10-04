@@ -6,6 +6,11 @@
 }: let
   cfg = config.programs.wow;
 
+  wineGraphicsDriver =
+    if cfg.wayland
+    then "wayland"
+    else "x11";
+
   winePrefixDir =
     if lib.hasPrefix "/" cfg.prefixDir
     then cfg.prefixDir
@@ -229,9 +234,11 @@ in {
         export PROTON_NO_ESYNC=1
         export PROTON_NO_FSYNC=1
         export WINE_SIMULATE_WRITECOPY=1
-        # Prefer Wine's native Wayland driver over Xwayland.  WAYLAND_DISPLAY
-        # and XDG_RUNTIME_DIR remain inherited from the graphical session.
-        export DISPLAY=""
+        ${lib.optionalString cfg.wayland ''
+          # Prefer Wine's native Wayland driver over Xwayland.  WAYLAND_DISPLAY
+          # and XDG_RUNTIME_DIR remain inherited from the graphical session.
+          export DISPLAY=""
+        ''}
       '';
       protonInit = pkgs.writeShellApplication {
         name = "wow-proton-init";
@@ -242,7 +249,7 @@ in {
           mkdir -p "$STEAM_COMPAT_DATA_PATH"
           steam-run "$steam_runtime" --verb=run -- "${protonTool}/proton" run wineboot -u
           steam-run "$steam_runtime" --verb=run -- "${protonTool}/proton" run \
-            reg.exe add 'HKCU\Software\Wine\Drivers' /v Graphics /d wayland /f
+            reg.exe add 'HKCU\Software\Wine\Drivers' /v Graphics /d ${wineGraphicsDriver} /f
           echo "Proton prefix ready: $STEAM_COMPAT_DATA_PATH/pfx"
         '';
       };

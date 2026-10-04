@@ -78,6 +78,12 @@ in {
       description = "Proton package used to run World of Warcraft.";
     };
 
+    wayland = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to run Wine with its native Wayland driver instead of Xwayland.";
+    };
+
     prefixDir = lib.mkOption {
       type = lib.types.str;
       default = ".local/share/wineprefixes/battlenet-wow";
