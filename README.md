@@ -16,33 +16,44 @@ Manager on NixOS and nix-darwin.
 
 ## Usage
 
-Add the flake to your flake inputs:
+Add `nix-warcraft` and Home Manager to your flake inputs. This example uses a
+standalone Home Manager configuration:
 
 ```nix
 {
-  inputs.nix-warcraft.url = "github:raccube/nix-warcraft";
+  description = "Home Manager configuration";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nix-warcraft.url = "github:raccube/nix-warcraft";
+  };
+
+  outputs = {nixpkgs, home-manager, nix-warcraft, ...}: let
+    system = "x86_64-linux";
+  in {
+    homeConfigurations.example = home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages.${system};
+      extraSpecialArgs = {inherit nix-warcraft;};
+      modules = [./home.nix];
+    };
+  };
 }
 ```
 
-Add the `nix-warcraft` module to your Home Manager configuration:
+In the `home.nix` referenced above, import the module and enable the addons:
 
 ```nix
-{
-  imports = [inputs.nix-warcraft.homeManagerModules.default];
-}
-```
+{nix-warcraft, pkgs, ...}: {
+  imports = [nix-warcraft.homeManagerModules.default];
 
-Then, use the `nix-warcraft` module in your Home Manager configuration:
+  # Make the add-on packages available as pkgs.wow-addons.
+  nixpkgs.overlays = [nix-warcraft.overlays.default];
 
-```nix
-{
-  # Add the package overlay
-  nixpkgs.overlays = [inputs.nix-warcraft.overlays.default];
-  
   programs.wow = {
     enable = true;
     versions.retail.addonPackages = with pkgs.wow-addons; [
-      # list your addons here ...
       bigwigs.core
       narcissus
     ];
