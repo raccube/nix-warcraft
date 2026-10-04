@@ -60,8 +60,12 @@
       installPhase = ''
         mkdir -p "$out" "$TMPDIR/unpacked"
         unzip -q "$src" -d "$TMPDIR/unpacked"
-        mkdir -p "$out/${subdir}"
-        cp -R "$TMPDIR/unpacked/${subdir}/." "$out/${subdir}/"
+        if [ "${subdir}" = "." ]; then
+          cp -R "$TMPDIR/unpacked/." "$out/"
+        else
+          mkdir -p "$out/${subdir}"
+          cp -R "$TMPDIR/unpacked/${subdir}/." "$out/${subdir}/"
+        fi
       '';
     };
 
