@@ -8,6 +8,7 @@ import subprocess
 import sys
 import urllib.error
 import urllib.request
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 from pathlib import Path
 
 
@@ -148,7 +149,17 @@ def latest_url(url: str, kind: str) -> tuple[str, str | None, str | None]:
         metadata = fetch_json(
             f"https://api.mmoui.com/v3/game/WOW/filedetails/{file_id}.json"
         )[0]
-        return metadata["UIDownload"], None, metadata["UIVersion"].removeprefix("v")
+        download_url = metadata["UIDownload"]
+        parsed_url = urlsplit(download_url)
+        query = [
+            (key, value)
+            for key, value in parse_qsl(parsed_url.query, keep_blank_values=True)
+            if key != "d"
+        ]
+        download_url = urlunsplit(
+            parsed_url._replace(query=urlencode(query))
+        )
+        return download_url, None, metadata["UIVersion"].removeprefix("v")
     return url, None, None
 
 
