@@ -1,10 +1,7 @@
-{githubReleaseAddon, ...}:
-with {
-  owner = "DeadlyBossMods";
-}; {
+{githubReleaseAddon, ...}: {
   core = githubReleaseAddon {
     name = "DBM-Core";
-    inherit owner;
+    owner = "DeadlyBossMods";
     repo = "DeadlyBossMods";
     rev = "12.1.12";
     asset = "DBM-Core-12.1.12.zip";
@@ -14,7 +11,7 @@ with {
 
   dungeons = githubReleaseAddon {
     name = "DBM-Dungeons";
-    inherit owner;
+    owner = "DeadlyBossMods";
     repo = "DBM-Dungeons";
     rev = "r264";
     asset = "DBM-Dungeons-r264.zip";
@@ -24,7 +21,7 @@ with {
 
   classic = githubReleaseAddon {
     name = "DBM-Vanilla_SoD";
-    inherit owner;
+    owner = "DeadlyBossMods";
     repo = "DBM-Vanilla";
     rev = "r830";
     asset = "DBM-Vanilla_SoD-r830.zip";
@@ -34,7 +31,7 @@ with {
 
   burning-crusade = githubReleaseAddon {
     name = "DBM-Raids-BC";
-    inherit owner;
+    owner = "DeadlyBossMods";
     repo = "DBM-BurningCrusade";
     rev = "r20";
     asset = "DBM-Raids-BC-r20.zip";
@@ -44,7 +41,7 @@ with {
 
   wrath-of-the-lich-king = githubReleaseAddon {
     name = "DBM-Raids-WoTLK";
-    inherit owner;
+    owner = "DeadlyBossMods";
     repo = "DBM-WotLK";
     rev = "r353";
     asset = "DBM-Raids-WoTLK-r353.zip";
@@ -54,7 +51,7 @@ with {
 
   cataclysm = githubReleaseAddon {
     name = "DBM-Raids-Cata";
-    inherit owner;
+    owner = "DeadlyBossMods";
     repo = "DBM-Cataclysm";
     rev = "r263";
     asset = "DBM-Raids-Cata-r263.zip";
@@ -64,7 +61,7 @@ with {
 
   mists-of-pandaria = githubReleaseAddon {
     name = "DBM-Raids-MoP";
-    inherit owner;
+    owner = "DeadlyBossMods";
     repo = "DBM-MoP";
     rev = "r191";
     asset = "DBM-Raids-MoP-r191.zip";
@@ -74,7 +71,7 @@ with {
 
   warlords-of-draenor = githubReleaseAddon {
     name = "DBM-Raids-WoD";
-    inherit owner;
+    owner = "DeadlyBossMods";
     repo = "DBM-WoD";
     rev = "r97";
     asset = "DBM-Raids-WoD-r97.zip";
@@ -84,7 +81,7 @@ with {
 
   legion = githubReleaseAddon {
     name = "DBM-Raids-Legion";
-    inherit owner;
+    owner = "DeadlyBossMods";
     repo = "DBM-Legion";
     rev = "r67";
     asset = "DBM-Raids-Legion-r67.zip";
@@ -94,7 +91,7 @@ with {
 
   battle-for-azeroth = githubReleaseAddon {
     name = "DBM-Raids-BfA";
-    inherit owner;
+    owner = "DeadlyBossMods";
     repo = "DBM-BfA";
     rev = "r50";
     asset = "DBM-Raids-BfA-r50.zip";
@@ -104,7 +101,7 @@ with {
 
   shadowlands = githubReleaseAddon {
     name = "DBM-Raids-Shadowlands";
-    inherit owner;
+    owner = "DeadlyBossMods";
     repo = "DBM-Shadowlands";
     rev = "r32";
     asset = "DBM-Raids-Shadowlands-r32.zip";
@@ -114,7 +111,7 @@ with {
 
   dragonflight = githubReleaseAddon {
     name = "DBM-Raids-Dragonflight";
-    inherit owner;
+    owner = "DeadlyBossMods";
     repo = "DBM-Dragonflight";
     rev = "r12";
     asset = "DBM-Raids-Dragonflight-r12.zip";
@@ -124,7 +121,7 @@ with {
 
   the-war-within = githubReleaseAddon {
     name = "DBM-Raids-WarWithin";
-    inherit owner;
+    owner = "DeadlyBossMods";
     repo = "DBM-TWW";
     rev = "r6";
     asset = "DBM-Raids-WarWithin-r6.zip";
