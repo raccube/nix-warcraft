@@ -28,15 +28,47 @@ def fetch_json(url: str, github: bool = False):
 
 
 def release_assets(release: dict, repo: str = "") -> list[dict]:
-    excluded_variants = r"classic|vanilla|bcc|tbc|wotlk|wrath|cata|mists|mop"
-    if repo.rsplit("/", 1)[-1].lower().endswith("_classic"):
-        excluded_variants = r"vanilla|bcc|tbc|wotlk|wrath|cata|mists|mop"
+    excluded_variants = [
+        "classic",
+        "vanilla",
+        "bcc",
+        "tbc",
+        "wotlk",
+        "wrath",
+        "cata",
+        "mists",
+        "mop",
+    ]
+    repo_name = repo.rsplit("/", 1)[-1].lower()
+    if repo_name.endswith("_classic"):
+        excluded_variants.remove("classic")
+    else:
+        # Expansion-specific DBM repositories use the expansion name in their
+        # asset names (for example, DBM-WotLK publishes DBM-Raids-WoTLK.zip).
+        # Do not discard the only valid asset just because it contains the
+        # repository's own variant marker.
+        variant_aliases = {
+            "vanilla": ("vanilla",),
+            "burningcrusade": ("bcc", "tbc"),
+            "wotlk": ("wotlk", "wrath"),
+            "cataclysm": ("cata",),
+            "mop": ("mists", "mop"),
+        }
+        for variant, aliases in variant_aliases.items():
+            if variant in repo_name:
+                excluded_variants = [
+                    excluded
+                    for excluded in excluded_variants
+                    if excluded not in aliases
+                ]
+                break
+    excluded_pattern = "|".join(excluded_variants)
     return [
         asset
         for asset in release.get("assets", [])
         if asset["name"].endswith(".zip")
         and not re.search(
-            rf"(?i)[-_.]({excluded_variants})\b|nolib",
+            rf"(?i)[-_.]({excluded_pattern})\b|nolib",
             asset["name"],
         )
     ]
