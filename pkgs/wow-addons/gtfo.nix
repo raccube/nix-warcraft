@@ -1,7 +1,7 @@
 {zipAddon, ...}:
 zipAddon {
   name = "gtfo";
-  version = "6.11";
-  url = "https://cdn.wowinterface.com/downloads/getfile.php?id=17996&d=1789334484&minion";
-  sha256 = "1hlyawx5liyws5ls7mpvprrdllpb52h2lili5dy30gk1ialq5ka6";
+  version = "6.12";
+  url = "https://cdn.wowinterface.com/downloads/getfile.php?id=17996&minion=";
+  sha256 = "17qic06d3f3kpz2ygq3w45zd4ygj1crv2r12klq3xswxxgaw9ffr";
 }
