@@ -3,8 +3,8 @@ githubReleaseAddon {
   name = "Angleur";
   owner = "LegolandoBloom";
   repo = "Angleur";
-  rev = "2.9.77-UI-Update-Hotfix";
-  asset = "Angleur-2.9.77-UI-Update-Hotfix.zip";
-  sha256 = "0rhmx6k7r2lyy6vk76b9c4wi53y78sh92q9vql1f5zl7h5i25760";
+  rev = "2.9.78-DoubleClick-Improvement";
+  asset = "Angleur-2.9.78-DoubleClick-Improvement.zip";
+  sha256 = "03qydk3dsh5blkfdnlbncrsmwrnd1ifljp47g4i6xkd28yhi3mbm";
   subdir = "Angleur";
 }
