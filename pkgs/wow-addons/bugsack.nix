@@ -3,8 +3,8 @@ githubReleaseAddon {
   name = "BugSack";
   owner = "funkydude";
   repo = "BugSack";
-  rev = "v12.1.2";
-  asset = "BugSack-v12.1.2.zip";
-  sha256 = "1v4wqbyzvp93iqr6wj6iwxw003jnyk9hxik30w68lvkyd9vs0l8y";
+  rev = "v12.1.5";
+  asset = "BugSack-v12.1.5.zip";
+  sha256 = "0gkpacwif1kzqvz05lfyfc7lg7lwx9b3wvhfc6282as0g1qdpjg2";
   subdir = "BugSack";
 }
