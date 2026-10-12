@@ -1,7 +1,7 @@
 {zipAddon, ...}:
 zipAddon {
   name = "BigWigs";
-  version = "426.3";
-  url = "https://github.com/BigWigsMods/BigWigs/releases/download/v426.3/BigWigs-v426.3.zip";
-  sha256 = "0bsbc69ajfnlmqqqyzv38x1fzg6aqmc8wd8fh9q6jgm6cc3g0gk6";
+  version = "426.4";
+  url = "https://github.com/BigWigsMods/BigWigs/releases/download/v426.4/BigWigs-v426.4.zip";
+  sha256 = "1wh72sj1qmv36kimbg77nhc3l4b19lx4i2vm6rj71ardvvziabdp";
 }
