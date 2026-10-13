@@ -3,9 +3,9 @@
     name = "DBM-Core";
     owner = "DeadlyBossMods";
     repo = "DeadlyBossMods";
-    rev = "12.1.12";
-    asset = "DBM-Core-12.1.12.zip";
-    sha256 = "1rj05l1xljnq2hwi4q78spyipgh0njalnjygisfh5zxbvb3vr2sw";
+    rev = "12.1.13";
+    asset = "DBM-Core-12.1.13.zip";
+    sha256 = "1ljxyvchfv9q6x2p55sn9sbc8h455h2msw73daiq9mzh8v9m89dn";
     subdir = "DBM-Core";
   };
 
@@ -23,9 +23,9 @@
     name = "DBM-Vanilla_SoD";
     owner = "DeadlyBossMods";
     repo = "DBM-Vanilla";
-    rev = "r830";
-    asset = "DBM-Vanilla_SoD-r830.zip";
-    sha256 = "0qw40j7zxlm2v1v9vhqwsw2xf9c1gwdvcdi8dk1xmqcsb6q9smbw";
+    rev = "r831";
+    asset = "DBM-Vanilla_SoD-r831.zip";
+    sha256 = "1zbvm1vkw714k8qpv0ncfmv8141bbm7a3dg8fcb450xc0vbav1r3";
     subdir = ".";
   };
 

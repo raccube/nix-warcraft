@@ -3,8 +3,8 @@ githubReleaseAddon {
   name = "Simulationcraft";
   owner = "simulationcraft";
   repo = "simc-addon";
-  rev = "12.1.0-04";
-  asset = "Simulationcraft-12.1.0-04.zip";
-  sha256 = "03q81kfhxrhka5xm3qd2rwk8fxmsmdsa1kaa67jkkiv83mx2p6gj";
+  rev = "12.1.5-01";
+  asset = "Simulationcraft-12.1.5-01.zip";
+  sha256 = "1vh90rpl1fdxvdp04a9vzpyny4pzzawsk73nvwxf64ailjsv1p3h";
   subdir = "Simulationcraft";
 }
