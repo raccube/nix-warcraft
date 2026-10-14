@@ -13,9 +13,9 @@
     name = "DBM-Dungeons";
     owner = "DeadlyBossMods";
     repo = "DBM-Dungeons";
-    rev = "r264";
-    asset = "DBM-Dungeons-r264.zip";
-    sha256 = "0yclbkys3649brs8srnp9i88dhh84v49i7wdyig9ff7gvwkhb8v3";
+    rev = "r265";
+    asset = "DBM-Dungeons-r265.zip";
+    sha256 = "0fvq7fsvryw5zd5vf4hiwfy8sxrr8y8bj031izqs6dc5i16w9sb5";
     subdir = ".";
   };
 
