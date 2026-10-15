@@ -2,7 +2,7 @@ addonLib:
 with addonLib; {
   core = zipAddon {
     name = "btwquests";
-    version = "2.64.0";
+    version = "2.65.0";
     url = "https://cdn.wowinterface.com/downloads/getfile.php?id=24680&minion=";
     sha256 = "0ds74fbgrhzcmxgyq8asg0cc6sqbqsid2q6h5dk7sw514xaj1zj4";
   };
