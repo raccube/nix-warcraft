@@ -3,8 +3,8 @@ githubReleaseAddon {
   name = "WeeklyKnowledge";
   owner = "DennisRas";
   repo = "WeeklyKnowledge";
-  rev = "v1.4.0";
-  asset = "WeeklyKnowledge-v1.4.0.zip";
-  sha256 = "0rw1ncwvrlqbm2nwbbsg1qhp5ya2w8jwr8hyy75qcqpjgi5wgifl";
+  rev = "v1.4.1";
+  asset = "WeeklyKnowledge-v1.4.1.zip";
+  sha256 = "0yk9wzkdqjxyncs1klnv7pciwbwls2xrd71as9wsdidcnqm0jgkg";
   subdir = "WeeklyKnowledge";
 }
