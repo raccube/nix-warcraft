@@ -3,9 +3,9 @@
     name = "DBM-Core";
     owner = "DeadlyBossMods";
     repo = "DeadlyBossMods";
-    rev = "12.1.16";
-    asset = "DBM-Core-12.1.16.zip";
-    sha256 = "0n6n97gk8hb0xq20ddspdy8ab16yw0qy13m6c5zwyyf8si948pr1";
+    rev = "12.1.17";
+    asset = "DBM-Core-12.1.17.zip";
+    sha256 = "0psygpb38qqsi0idzgk343kcghvldh1plapj9inbyhq4ikgv7sqn";
     subdir = "DBM-Core";
   };
 

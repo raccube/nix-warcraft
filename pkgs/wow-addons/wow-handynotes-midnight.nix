@@ -3,8 +3,8 @@ githubReleaseAddon {
   name = "HandyNotes_MidnightTreasures";
   owner = "kemayo";
   repo = "wow-handynotes-midnight";
-  rev = "v72";
-  asset = "HandyNotes_MidnightTreasures-v72.zip";
-  sha256 = "114z8rljwlyfakyy6y3dnvw6580ck8zyyd4n41n5a10mysbiiw0r";
+  rev = "v73";
+  asset = "HandyNotes_MidnightTreasures-v73.zip";
+  sha256 = "0k3f9g5i6z2b194pc6c34bxid5vr257sbsp5hscql66ash0kg884";
   subdir = "HandyNotes_MidnightTreasures";
 }
