@@ -225,7 +225,6 @@ in {
   imports = [
     ./options.nix
     ./ui.nix
-    ./logs.nix
   ];
 
   config = lib.mkMerge [
