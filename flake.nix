@@ -17,6 +17,12 @@
       wow-addons = import ./pkgs/wow-addons {pkgs = final;};
     };
 
+    checks = forAllSystems (system: {
+      wow-auto-logging = nixpkgs.legacyPackages.${system}.callPackage ./pkgs/wow-auto-logging {
+        interfaceVersion = 120105;
+      };
+    });
+
     packages = forAllSystems (system: let
       pkgs = nixpkgs.legacyPackages.${system};
       addons = import ./pkgs/wow-addons {inherit pkgs;};
