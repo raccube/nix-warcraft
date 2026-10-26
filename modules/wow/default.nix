@@ -28,6 +28,8 @@
     classic-era = "WowClassic.exe";
     ptr = "WowT.exe";
     xptr = "WowT.exe";
+    anniversary = "WowClassic.exe";
+    forever = "Wow.exe";
   };
 
   gitignoreFile = pkgs.writeText "wow-wtf-gitignore" (
