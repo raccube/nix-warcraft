@@ -77,7 +77,7 @@
       mutableAddOns = lib.mkOption {
         type = lib.types.bool;
         default = false;
-        description = "Whether to allow AddOns not managed by this flake in the AddOns directory.";
+        description = "Whether to preserve unmanaged addons on activation. The AddOns directory and packaged addons are always writable; managed addons are reset to their packaged contents on activation.";
       };
     };
   };

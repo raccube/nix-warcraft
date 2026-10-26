@@ -69,4 +69,9 @@ In the `home.nix` referenced above, import the module and enable the addons:
 The attribute name must match the addon's directory name. Use `$HOME` in the
 source path when the checkout location differs between machines.
 
+Packaged addons are installed as writable copies so Battle.net can update the game.
+Activation restores managed addons to their packaged contents. By default,
+`mutableAddOns = false` also removes unmanaged addons; set it to `true` to preserve
+them. Development addons remain linked to their local source directories.
+
 Run `wow-proton-init` to initialize the Proton prefix, then run `wow-battlenet-install --download` to download the Battle.net client.

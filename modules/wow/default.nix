@@ -200,11 +200,17 @@
               ln -s "$addon_entry" "$out/$(basename "$addon_entry")"
             done
           '')
-          (wowConfig.addonPackages ++ [uiLayoutAddon])}
+          (wowConfig.addonPackages
+            ++ [uiLayoutAddon]
+            ++ lib.optional (cfg.logs.enable && cfg.logs.autoCombatLogging && flavour == cfg.logs.version)
+            (pkgs.callPackage ../../pkgs/wow-auto-logging {inherit (cfg.logs) interfaceVersion;}))}
         ${lib.concatStringsSep "\n" (lib.mapAttrsToList (addon: source: ''
             ln -s "${source}" "$out/${addon}"
           '')
           wowConfig.developmentAddons)}
+        for addon in "$out"/*; do
+          basename "$addon"
+        done > "$out/.nix-wow-managed-addons"
       '';
       mutableAddOns = wowConfig.mutableAddOns;
       executable =
@@ -216,6 +222,8 @@
 in {
   imports = [
     ./options.nix
+    ./ui.nix
+    ./logs.nix
   ];
 
   config = lib.mkMerge [
@@ -370,46 +378,62 @@ in {
     (lib.mkIf cfg.enable {
       home.packages = lib.mkIf cfg.wtfSync.enable [wowWtfResolveScript];
       home.activation.wowAddons = lib.mkIf (cfg.versions != {}) (lib.hm.dag.entryAfter ["writeBoundary"] (
-        lib.concatStringsSep "\n" (lib.mapAttrsToList (name: version:
-          if version.mutableAddOns
-          then ''
+        lib.concatStringsSep "\n" (lib.mapAttrsToList (name: version: ''
             addon_install_dir="${version.addonInstallDir}"
 
+            # Migrate the old immutable AddOns symlink to a writable directory.
             if [ -L "$addon_install_dir" ]; then
               $DRY_RUN_CMD unlink "$addon_install_dir"
             fi
             $DRY_RUN_CMD mkdir -p "$addon_install_dir"
+            $DRY_RUN_CMD chmod u+rwx "$addon_install_dir"
 
-            # Drop symlinks from previous generations so removed addons disappear.
-            for link in "$addon_install_dir"/*; do
-              if [ -L "$link" ] && [[ "$(readlink "$link")" == /nix/store/* ]]; then
-                $DRY_RUN_CMD rm "$link"
-              fi
-            done
+            ${
+              if version.mutableAddOns
+              then ''
+                # Remove copies managed by the previous generation.
+                if [ -f "$addon_install_dir/.nix-wow-managed-addons" ]; then
+                  while IFS= read -r addon_name; do
+                    case "$addon_name" in
+                      ""|.|..|*/*) continue ;;
+                    esac
+                    $DRY_RUN_CMD rm -rf "$addon_install_dir/$addon_name"
+                  done < "$addon_install_dir/.nix-wow-managed-addons"
+                fi
+                # Also migrate links created before writable copies were used.
+                for link in "$addon_install_dir"/*; do
+                  if [ -L "$link" ] && [[ "$(readlink "$link")" == /nix/store/* ]]; then
+                    $DRY_RUN_CMD rm "$link"
+                  fi
+                done
+              ''
+              else ''
+                # Enforce the configured addon set without making it read-only.
+                for entry in "$addon_install_dir"/* "$addon_install_dir"/.[!.]* "$addon_install_dir"/..?*; do
+                  if [ -e "$entry" ] || [ -L "$entry" ]; then
+                    $DRY_RUN_CMD rm -rf "$entry"
+                  fi
+                done
+              ''
+            }
 
             for addon in ${version.addonsEnv}/*; do
               target="$addon_install_dir/$(basename "$addon")"
-              # Replace addon folders previously installed imperatively.
-              if [ -e "$target" ] && [ ! -L "$target" ]; then
-                $DRY_RUN_CMD rm -rf "$target"
-              fi
-              $DRY_RUN_CMD ln -sfn "$(readlink -f "$addon")" "$target"
+              $DRY_RUN_CMD rm -rf "$target"
+              case "$(basename "$addon")" in
+                ${lib.concatStringsSep "|" (map lib.escapeShellArg (builtins.attrNames version.developmentAddons) ++ ["''"])})
+                  $DRY_RUN_CMD ln -s "$(readlink "$addon")" "$target"
+                  ;;
+                *)
+                  $DRY_RUN_CMD cp -RL "$addon" "$target"
+                  $DRY_RUN_CMD chmod -R u+rwX "$target"
+                  ;;
+              esac
             done
-
-          ''
-          else ''
-            if [ -d "${version.addonInstallDir}" ] && [ ! -L "${version.addonInstallDir}" ]; then
-              if [ -n "$(find "${version.addonInstallDir}" -mindepth 1 -maxdepth 1 -print -quit)" ]; then
-                echo "WoW ${name} AddOns directory already exists but is configured as immutable: ${version.addonInstallDir}" >&2
-                echo "Remove it or set programs.wow.versions.${name}.mutableAddOns = true." >&2
-                exit 1
-              else
-                $DRY_RUN_CMD rm -d "${version.addonInstallDir}"
-              fi
-            fi
-            ln -sfn "${version.addonsEnv}" "${version.addonInstallDir}"
+            $DRY_RUN_CMD cp ${version.addonsEnv}/.nix-wow-managed-addons "$addon_install_dir/.nix-wow-managed-addons"
+            $DRY_RUN_CMD chmod u+rwX "$addon_install_dir" "$addon_install_dir/.nix-wow-managed-addons"
           '')
-        versionStates)
+          versionStates)
       ));
     })
 
