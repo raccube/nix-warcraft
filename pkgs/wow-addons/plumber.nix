@@ -3,8 +3,8 @@ githubReleaseAddon {
   name = "Plumber";
   owner = "Peterodox";
   repo = "Plumber";
-  rev = "v1.9.6-d";
-  asset = "Plumber-1.9.6-d.zip";
-  sha256 = "0lrayi34nkx5zyx20d23wgzbxf2rpyp5z4n13qc1sbg777f32yw9";
+  rev = "v1.9.7";
+  asset = "Plumber-1.9.7.zip";
+  sha256 = "15d4a5pydc43lrdky5qv9752qhj1fq20rad4yx3hz36rjr7qhqi8";
   subdir = "Plumber";
 }
