@@ -3,9 +3,9 @@
     name = "DBM-Core";
     owner = "DeadlyBossMods";
     repo = "DeadlyBossMods";
-    rev = "12.1.17";
-    asset = "DBM-Core-12.1.17.zip";
-    sha256 = "0psygpb38qqsi0idzgk343kcghvldh1plapj9inbyhq4ikgv7sqn";
+    rev = "12.1.18";
+    asset = "DBM-Core-12.1.18.zip";
+    sha256 = "06v8blpyyjpc21cc2kmxynl33fq8ycr15c0a4vg0wizw1245px9r";
     subdir = "DBM-Core";
   };
 
@@ -13,9 +13,9 @@
     name = "DBM-Dungeons";
     owner = "DeadlyBossMods";
     repo = "DBM-Dungeons";
-    rev = "r268";
-    asset = "DBM-Dungeons-r268.zip";
-    sha256 = "06im8xwrndnq486pbzjg4ywmr18vq2v17phwgncxgh7i8n6d6xgl";
+    rev = "r269";
+    asset = "DBM-Dungeons-r269.zip";
+    sha256 = "08jhzm83w0x79fjqqdgpywzrkh7ak05zj2zbggd3w7fg0ia6hwjx";
     subdir = ".";
   };
 
@@ -23,9 +23,9 @@
     name = "DBM-Vanilla_SoD";
     owner = "DeadlyBossMods";
     repo = "DBM-Vanilla";
-    rev = "r833";
-    asset = "DBM-Vanilla_SoD-r833.zip";
-    sha256 = "0xzgcs3s5jdcpvnr20g9zfcdvp7va894pmrh8454fbdi80jdhafa";
+    rev = "r834";
+    asset = "DBM-Vanilla_SoD-r834.zip";
+    sha256 = "0hp2isiplqijhynqw20b60162r3jafjd2avpklzsycv9cdj0v1rn";
     subdir = ".";
   };
 
@@ -73,9 +73,9 @@
     name = "DBM-Raids-WoD";
     owner = "DeadlyBossMods";
     repo = "DBM-WoD";
-    rev = "r98";
-    asset = "DBM-Raids-WoD-r98.zip";
-    sha256 = "1s3hgv4jsm50gjnvhxngsrm89gcwxb61crdwfg9z8na0zg1hgjpl";
+    rev = "r99";
+    asset = "DBM-Raids-WoD-r99.zip";
+    sha256 = "0n5ai9blwyyqpqb5pp6vxm1yff6g3q9g0pja85n8jfpl59l7sp3m";
     subdir = "DBM-Raids-WoD";
   };
 
@@ -83,9 +83,9 @@
     name = "DBM-Raids-Legion";
     owner = "DeadlyBossMods";
     repo = "DBM-Legion";
-    rev = "r68";
-    asset = "DBM-Raids-Legion-r68.zip";
-    sha256 = "06rf2xg8qz17v9d46rw6plsw4vgcv0wlvp4ql5n7znlralac6dws";
+    rev = "r69";
+    asset = "DBM-Raids-Legion-r69.zip";
+    sha256 = "1g16yq56a1jfa20m2gg5wvlqbd1rh7fmzv5bcb6g1k0q3z5hg0yl";
     subdir = "DBM-Raids-Legion";
   };
 
