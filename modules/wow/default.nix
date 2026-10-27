@@ -202,10 +202,7 @@
               ln -s "$addon_entry" "$out/$(basename "$addon_entry")"
             done
           '')
-          (wowConfig.addonPackages
-            ++ [uiLayoutAddon]
-            ++ lib.optional (cfg.logs.enable && cfg.logs.autoCombatLogging && flavour == cfg.logs.version)
-            (pkgs.callPackage ../../pkgs/wow-auto-logging {inherit (cfg.logs) interfaceVersion;}))}
+          (wowConfig.addonPackages ++ [uiLayoutAddon])}
         ${lib.concatStringsSep "\n" (lib.mapAttrsToList (addon: source: ''
             ln -s "${source}" "$out/${addon}"
           '')
