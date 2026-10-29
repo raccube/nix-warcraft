@@ -33,9 +33,9 @@
     name = "DBM-Raids-BC";
     owner = "DeadlyBossMods";
     repo = "DBM-BurningCrusade";
-    rev = "r21";
-    asset = "DBM-Raids-BC-r21.zip";
-    sha256 = "1w5zsvwzpan29ffg0kv4nxfrs6kc3ccg7hcrikg74wvdwm3qpx97";
+    rev = "r22";
+    asset = "DBM-Raids-BC-r22.zip";
+    sha256 = "1lvri5d9rfxqjl85zzwsmm9611p25b2r0mb3wxinzaym3gg7z0kh";
     subdir = "DBM-Raids-BC";
   };
 

@@ -3,8 +3,8 @@ githubReleaseAddon {
   name = "AbilityTimeline";
   owner = "Jods-GH";
   repo = "AbilityTimeline";
-  rev = "v0.37";
-  asset = "AbilityTimeline-v0.37.zip";
-  sha256 = "0c6qz4cq216kaq1zrbidsxyf7zn7x4y82qdj2i5rd7skgva19r0q";
+  rev = "v0.38";
+  asset = "AbilityTimeline-v0.38.zip";
+  sha256 = "11m2nmx8iyirnyd6sdy2ly86bs3bvc3pg7q7z5m9sx3df2gywrvz";
   subdir = "AbilityTimeline";
 }
