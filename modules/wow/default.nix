@@ -225,7 +225,7 @@ in {
   ];
 
   config = lib.mkMerge [
-    (lib.mkIf (cfg.enable && pkgs.stdenv.hostPlatform.isLinux) (let
+    (lib.mkIf (cfg.enable && pkgs.stdenv.hostPlatform.isLinux && cfg.protonPackage != null) (let
       prefix = winePrefixDir;
       protonTool = cfg.protonPackage;
       steamRuntimeLookup = ''
@@ -440,15 +440,6 @@ in {
         {
           assertion = cfg.wtfSync.remoteUrl != "";
           message = "programs.wow.wtfSync.remoteUrl must be set when wtfSync.enable is true";
-        }
-      ];
-    })
-
-    (lib.mkIf (cfg.enable && pkgs.stdenv.hostPlatform.isLinux) {
-      assertions = [
-        {
-          assertion = cfg.protonPackage != null;
-          message = "programs.wow.protonPackage must be set when programs.wow is enabled on Linux";
         }
       ];
     })
