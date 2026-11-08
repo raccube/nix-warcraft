@@ -4,6 +4,7 @@ in {
   bigwigs = import ./bigwigs {inherit pkgs addonLib;};
   dbm = import ./dbm {inherit pkgs addonLib;};
   btwquests = import ./btwquests.nix addonLib;
+  questie = import ./questie.nix addonLib;
   adventure-guide-lockouts = import ./adventure-guide-lockouts.nix addonLib;
   mog-companions = import ./mog-companions.nix addonLib;
   narcissus = import ./narcissus.nix addonLib;
