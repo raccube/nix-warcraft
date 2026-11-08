@@ -22,6 +22,7 @@ in {
   forever-dungeon-journal = import ./forever-dungeon-journal.nix addonLib;
   simc-addon = import ./simc-addon.nix addonLib;
   wow-handynotes-midnight = import ./wow-handynotes-midnight.nix addonLib;
+  rarescanner-forever = import ./rarescanner-forever.nix addonLib;
   altoholic = import ./altoholic.nix addonLib;
   gtfo = import ./gtfo.nix addonLib;
   bug-grabber = import ./bug-grabber.nix addonLib;
