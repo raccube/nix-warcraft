@@ -36,4 +36,5 @@ in {
   rxp-guides = import ./rxp-guides.nix addonLib;
   spoken = import ./spoken.nix addonLib;
   baganator = import ./baganator.nix addonLib;
+  syndicator = import ./syndicator.nix addonLib;
 }
