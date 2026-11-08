@@ -15,6 +15,7 @@ in {
   angleur = import ./angleur.nix addonLib;
   bugsack = import ./bugsack.nix addonLib;
   craftsim = import ./craftsim.nix addonLib;
+  auctionator = import ./auctionator.nix addonLib;
   handynotes = import ./handynotes.nix addonLib;
   idtip = import ./idtip.nix addonLib;
   littlewigs = import ./littlewigs.nix addonLib;
