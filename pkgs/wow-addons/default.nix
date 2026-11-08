@@ -29,6 +29,7 @@ in {
   snake-says = import ./snake-says.nix addonLib;
   oilvl = import ./oilvl.nix addonLib;
   opie = import ./opie.nix addonLib;
+  compass-forever = import ./compass-forever.nix addonLib;
   enhance-qol = import ./enhance-qol.nix addonLib;
   ellesmere-ui = import ./ellesmere-ui.nix addonLib;
   gatherlite = import ./gatherlite.nix addonLib;
