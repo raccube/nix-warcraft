@@ -19,6 +19,7 @@ in {
   handynotes = import ./handynotes.nix addonLib;
   idtip = import ./idtip.nix addonLib;
   littlewigs = import ./littlewigs.nix addonLib;
+  forever-dungeon-journal = import ./forever-dungeon-journal.nix addonLib;
   simc-addon = import ./simc-addon.nix addonLib;
   wow-handynotes-midnight = import ./wow-handynotes-midnight.nix addonLib;
   altoholic = import ./altoholic.nix addonLib;
