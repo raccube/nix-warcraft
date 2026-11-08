@@ -9,6 +9,7 @@ in {
   mog-companions = import ./mog-companions.nix addonLib;
   narcissus = import ./narcissus.nix addonLib;
   plumber = import ./plumber.nix addonLib;
+  forever-loot-sparkles = import ./forever-loot-sparkles.nix addonLib;
   weekly-knowledge = import ./weekly-knowledge.nix addonLib;
   yui-dialogue = import ./yui-dialogue.nix addonLib;
   ability-timeline = import ./ability-timeline.nix addonLib;
