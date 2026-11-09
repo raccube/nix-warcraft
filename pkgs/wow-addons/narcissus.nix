@@ -3,8 +3,8 @@ githubReleaseAddon {
   name = "Narcissus";
   owner = "Peterodox";
   repo = "Narcissus";
-  rev = "v1.8.7-b";
-  asset = "Narcissus-1.8.7-b.zip";
-  sha256 = "0bxbsy3gh6m4kp39yq36ynjjgkpczg59rwyxr4460lj29rp06jd0";
+  rev = "v1.8.7-c";
+  asset = "Narcissus-1.8.7-c.zip";
+  sha256 = "1hzahlrgiz32yxhilh1r33gkpm7ynxia20r5wqryk0sngidpq8ij";
   subdir = "Narcissus";
 }
