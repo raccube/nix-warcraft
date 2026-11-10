@@ -1,8 +1,8 @@
 {zipAddon, ...}:
 zipAddon {
   name = "Spoken";
-  version = "Spoken 3.8.4";
+  version = "Spoken 3.8.5";
   curseforgeProjectId = 1700375;
-  url = "https://edge.forgecdn.net/files/9511/69/Spoken-3.8.4.zip";
-  sha256 = "139wzxwb9bfdg2xh1m3b7fzk458nz625ij0r9p9jmpm9w7mr4qbl";
+  url = "https://edge.forgecdn.net/files/9533/567/Spoken-3.8.5.zip";
+  sha256 = "06m8spjv2bf4ai8nzhja6kwdlrj9ff5i41sbvfsljk5l5wzpgz4k";
 }
