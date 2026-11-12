@@ -3,8 +3,8 @@ githubReleaseAddon {
   name = "idTip";
   owner = "silverwind";
   repo = "idTip";
-  rev = "12.1.8";
-  asset = "idTip-12.1.8.zip";
-  sha256 = "1irpap4r43v15mj3bhzg24q83gggzzfd09qfw13s4gy9biq0rssn";
+  rev = "12.1.10";
+  asset = "idTip-12.1.10.zip";
+  sha256 = "07fmpicw871hgj6a8f6j5j26nf7dpal7xjfbr3906zl3mraybjdc";
   subdir = "idTip";
 }

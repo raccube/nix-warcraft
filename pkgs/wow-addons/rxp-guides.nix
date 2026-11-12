@@ -3,8 +3,8 @@ githubReleaseAddon {
   name = "RXPGuides";
   owner = "RestedXP";
   repo = "RXPGuides";
-  rev = "v4.11.35";
-  asset = "RXPGuides-v4.11.35.zip";
-  sha256 = "0rkw6sps1dm2l8bdaa6c2x9a7yqzffjfxkha1x8mfhaka515yp58";
+  rev = "v4.11.36";
+  asset = "RXPGuides-v4.11.36.zip";
+  sha256 = "1wgijz3jxvch351a9bjrbdvbzfi8xdad5iw8kjrlckcdv76hb825";
   subdir = "RXPGuides";
 }
