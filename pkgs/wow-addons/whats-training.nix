@@ -3,8 +3,8 @@ githubReleaseAddon {
   name = "WhatsTraining";
   owner = "fusionpit";
   repo = "WhatsTraining";
-  rev = "11.4.3";
-  asset = "WhatsTraining-11.4.3.zip";
-  sha256 = "0i18rzgw09rvnclfxwdcxf4yzw6g5ic8c345afgg5z8rsn9xr976";
+  rev = "11.4.5";
+  asset = "WhatsTraining-11.4.5.zip";
+  sha256 = "1v6nbrr0wmx6dkha29q2jx3g7jinh5h5mqvhwb93cgqk7m2snp35";
   subdir = "WhatsTraining";
 }
