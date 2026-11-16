@@ -1,8 +1,8 @@
 {zipAddon, ...}:
 zipAddon {
   name = "Baganator";
-  version = "857";
+  version = "860";
   curseforgeProjectId = 914482;
-  url = "https://edge.forgecdn.net/files/9620/645/Baganator-857.zip";
-  sha256 = "0x2qrl8zyg8wgv9m3w3msgz8k6fxn90krgx0pimj99ssqvb0k6s1";
+  url = "https://edge.forgecdn.net/files/9636/9/Baganator-860.zip";
+  sha256 = "0ivd86nrqrsxvd6zfgs8m5x2mcr7ipjfswl7l857ngq8wzqjjsid";
 }
