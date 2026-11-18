@@ -1,8 +1,8 @@
 {zipAddon, ...}:
 zipAddon {
   name = "EllesmereUI";
-  version = "v9.8.8";
+  version = "v9.8.9";
   curseforgeProjectId = 1477613;
-  url = "https://edge.forgecdn.net/files/9643/268/EllesmereUI-v9.8.8.zip";
-  sha256 = "0lgx1c8jj61kx9qlc46v9528sgq52lq1nbxjanbxc1akp4ffbb90";
+  url = "https://edge.forgecdn.net/files/9679/998/EllesmereUI-v9.8.9.zip";
+  sha256 = "0a77l2fry5sf0zmnrs73bjg89b971ik6m98khvnx0v1hp28k3i68";
 }

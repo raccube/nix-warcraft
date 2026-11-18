@@ -3,8 +3,8 @@ githubReleaseAddon {
   name = "YUI-Dialogue";
   owner = "Peterodox";
   repo = "YUI-Dialogue";
-  rev = "v1.0.7-c";
-  asset = "DialogueUI-1.0.7-c.zip";
-  sha256 = "1z99aaf85szjjxjnzisris7rrw39bzs8p552mw4s2xhyk1r413sx";
+  rev = "v1.0.7-d";
+  asset = "DialogueUI-1.0.7-d.zip";
+  sha256 = "1mv02r8n89sbmmdd6gk8l6h6sxnb9z8cinn0v907k24k15l92fz6";
   subdir = "DialogueUI";
 }
