@@ -1,8 +1,8 @@
 {zipAddon, ...}:
 zipAddon {
   name = "Auctionator";
-  version = "349";
+  version = "351";
   curseforgeProjectId = 6124;
-  url = "https://edge.forgecdn.net/files/9690/303/Auctionator-349.zip";
-  sha256 = "08wlqkq4w13is5awlnh1il2w98vhp2qn9k9vzz1xxfm0c4j6q1fs";
+  url = "https://edge.forgecdn.net/files/9740/188/Auctionator-351.zip";
+  sha256 = "0mmcky3wjsxrphmcpc1kb0yipksvc6ac2bg1ikd982b9k13zl7vz";
 }

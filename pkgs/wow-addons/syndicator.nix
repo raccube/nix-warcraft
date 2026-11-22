@@ -1,8 +1,8 @@
 {zipAddon, ...}:
 zipAddon {
   name = "Syndicator";
-  version = "292";
+  version = "293";
   curseforgeProjectId = 988370;
-  url = "https://edge.forgecdn.net/files/9718/258/Syndicator-292.zip";
-  sha256 = "1jwmhv82gdrxs13a9lzzlycw1sd700s6mc50vpnsqrr3qdmx13v1";
+  url = "https://edge.forgecdn.net/files/9738/18/Syndicator-293.zip";
+  sha256 = "025c0k16bpvkiggm5vmjdhf1q0lbqck02lkj6mqa927p1ppk9bdz";
 }
