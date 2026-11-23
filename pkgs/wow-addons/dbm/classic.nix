@@ -3,8 +3,8 @@ githubReleaseAddon {
   name = "DBM-Vanilla_SoD";
   owner = "DeadlyBossMods";
   repo = "DBM-Vanilla";
-  rev = "r836";
-  asset = "DBM-Vanilla_SoD-r836.zip";
-  sha256 = "1miysiz7v6xzykbpyylvd0c34cg00s862f1hssbnsgw1dfnxd1wr";
+  rev = "r837";
+  asset = "DBM-Vanilla_SoD-r837.zip";
+  sha256 = "045i8zlqji1h5vgqznrnyq89wq7m9274syw7cyl4y8nyv0hjlk6q";
   subdir = ".";
 }
