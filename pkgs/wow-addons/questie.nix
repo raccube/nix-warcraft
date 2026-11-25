@@ -1,8 +1,8 @@
 {zipAddon, ...}:
 zipAddon {
   name = "Questie";
-  version = "v12.13.0";
+  version = "v12.14.0";
   curseforgeProjectId = 334372;
-  url = "https://edge.forgecdn.net/files/9776/562/Questie-v12.13.0.zip";
-  sha256 = "1xsgpzr1f7sc09k5mrhwir279knvgawi4vxp8qfnr1l147vaisn8";
+  url = "https://edge.forgecdn.net/files/9794/640/Questie-v12.14.0.zip";
+  sha256 = "02aiprd93hmxd5q89yymsi86xajdp81fn0p27ryrpja8krgk1grk";
 }

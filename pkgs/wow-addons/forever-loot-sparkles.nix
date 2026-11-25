@@ -3,8 +3,8 @@ githubReleaseAddon {
   name = "ForeverLootSparkles";
   owner = "svengabr";
   repo = "ForeverLootSparkles";
-  rev = "v2.0.0";
-  asset = "ForeverLootSparkles-v2.0.0-forever.zip";
-  sha256 = "1hgwjw49fz27k5b8g3zv4gzyk2p3hwv4j4kdl6jnjr64rhjk28fs";
+  rev = "v2.1.0";
+  asset = "ForeverLootSparkles-v2.1.0-forever.zip";
+  sha256 = "1bq6kmi8f8mxfvh0vng4ha45pplfpb1i9b8bi23y7z4nf1nfzzl4";
   subdir = "ForeverLootSparkles";
 }
