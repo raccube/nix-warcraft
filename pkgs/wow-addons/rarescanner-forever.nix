@@ -1,8 +1,8 @@
 {zipAddon, ...}:
 zipAddon {
   name = "RareScanner";
-  version = "RareScanner_FOREVER_1.60.1.12";
+  version = "RareScanner_FOREVER_1.60.1.13";
   curseforgeProjectId = 84208;
-  url = "https://edge.forgecdn.net/files/9789/800/RareScanner_FOREVER_1.60.1.12.zip";
-  sha256 = "0p2q3xcahxb35v0sl55x4x8zvlfp4950dsk9vrldmin1xcxg6ll7";
+  url = "https://edge.forgecdn.net/files/9825/582/RareScanner_FOREVER_1.60.1.13.zip";
+  sha256 = "0k48ljsnzcip49xw0hnf7xpy4ify68wak7dijs56c625bjw6f46a";
 }
