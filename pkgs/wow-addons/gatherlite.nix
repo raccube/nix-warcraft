@@ -1,8 +1,8 @@
 {zipAddon, ...}:
 zipAddon {
   name = "GatherLite";
-  version = "GatherLite 8.4.17";
+  version = "GatherLite 8.4.18";
   curseforgeProjectId = 334918;
-  url = "https://edge.forgecdn.net/files/9807/711/GatherLite-8.4.17.zip";
-  sha256 = "1p04f45ndmxkai3dsqjs5aanf2xcysh89aswsn0d5k81cmw7q2a3";
+  url = "https://edge.forgecdn.net/files/9844/776/GatherLite-8.4.18.zip";
+  sha256 = "0l1hl8xbi7vxnm01axf3b413x9cxcyj0sx57glf68mrx93gn2zi6";
 }

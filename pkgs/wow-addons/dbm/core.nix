@@ -3,8 +3,8 @@ githubReleaseAddon {
   name = "DBM-Core";
   owner = "DeadlyBossMods";
   repo = "DeadlyBossMods";
-  rev = "12.1.25";
-  asset = "DBM-Core-12.1.25.zip";
-  sha256 = "0d660xam5q3py0xv9054m5v4j4hg7wpsskfg8jjrqj2j9yd3bnwn";
+  rev = "12.1.26";
+  asset = "DBM-Core-12.1.26.zip";
+  sha256 = "18vnphra0337ws8cjkf24kibf03kdbwp436nq4rl0rr2ykh4yvmn";
   subdir = "DBM-Core";
 }
