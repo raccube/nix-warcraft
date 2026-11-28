@@ -39,4 +39,5 @@ in {
   spoken = import ./spoken.nix addonLib;
   baganator = import ./baganator.nix addonLib;
   syndicator = import ./syndicator.nix addonLib;
+  better-fishing = import ./better-fishing.nix addonLib;
 }
